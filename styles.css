@@ -214,7 +214,7 @@ a { color: inherit; text-decoration: none; }
   border-left: 1px solid var(--line);
 }
 
-/* [CORREGIDO]: Agrupado en una sola clase única con transiciones tácticas */
+/* FUSIONADO Y ARREGLADO: Tarjeta de Producto Única con transiciones activas */
 .product-card {
   border-right: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
@@ -224,20 +224,20 @@ a { color: inherit; text-decoration: none; }
   gap: 0.6rem;
   position: relative;
   z-index: 1;
-  transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), 
-              border-color 0.25s ease, 
-              box-shadow 0.25s ease;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
+              border-color 0.3s ease, 
+              box-shadow 0.3s ease;
 }
 
-/* [CORREGIDO]: Hover de tarjeta unificado */
+/* Efecto Hover táctico */
 .product-card:hover {
   transform: scale(1.02);
   border-color: var(--accent) !important;
   z-index: 10;
-  box-shadow: 0 0 20px rgba(95, 217, 122, 0.12); 
+  box-shadow: 0 0 15px rgba(95, 217, 122, 0.15); 
 }
 
-/* [CORREGIDO]: Contenedor del textil/SVG */
+/* FUSIONADO Y ARREGLADO: Contenedor textil base */
 .product-swatch {
   height: 160px;
   border: 1px solid var(--line);
@@ -246,14 +246,14 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
   overflow: hidden;
   filter: grayscale(1);
-  transition: filter 0.25s ease, border-color 0.25s ease;
+  transition: filter 0.3s ease, border-color 0.3s ease;
 }
 .product-swatch svg { width: 50%; height: 50%; opacity: 0.8; }
 .product-swatch img { width: 100%; height: 100%; object-fit: cover; }
 
-/* El swatch se ilumina sutilmente en hover */
+/* El swatch se activa al pasar el mouse por la tarjeta */
 .product-card:hover .product-swatch {
-  filter: grayscale(0.3) contrast(1.1);
+  filter: grayscale(0.2) contrast(1.1);
   border-color: var(--accent-dim);
 }
 
@@ -278,7 +278,6 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.05em;
   cursor: pointer;
   font-family: var(--font-mono);
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 .add-btn:hover { background: var(--accent); color: #000; border-color: var(--accent); }
 
@@ -497,15 +496,15 @@ a { color: inherit; text-decoration: none; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 
-/* ---------- Esquineros Decorativos (Miras tácticas) ---------- */
+/* ---------- Esquineros Decorativos en las Tarjetas ---------- */
 .product-card::before,
 .product-card::after {
   content: "";
   position: absolute;
   width: 8px;
   height: 8px;
-  opacity: 0.4;
-  transition: border-color 0.25s ease, opacity 0.25s ease;
+  opacity: 0.5;
+  transition: border-color 0.3s ease, opacity 0.3s ease;
 }
 
 .product-card::before {

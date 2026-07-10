@@ -373,7 +373,7 @@ a { color: inherit; text-decoration: none; }
   background: rgba(0,0,0,0.75);
   display: flex;
   justify-content: flex-end;
-  z-index: 100; /* Se sitúa sobre todo lo demás */
+  z-index: 100;
 }
 .overlay.hidden { display: none; }
 
@@ -520,7 +520,6 @@ a { color: inherit; text-decoration: none; }
   transition: border-color 0.3s ease, opacity 0.3s ease;
 }
 
-/* Esquina superior izquierda */
 .product-card::before {
   top: 6px;
   left: 6px;
@@ -528,7 +527,6 @@ a { color: inherit; text-decoration: none; }
   border-left: 1px solid var(--text-dim);
 }
 
-/* Esquina inferior derecha */
 .product-card::after {
   bottom: 6px;
   right: 6px;
@@ -536,9 +534,114 @@ a { color: inherit; text-decoration: none; }
   border-right: 1px solid var(--text-dim);
 }
 
-/* Cuando pasas el cursor, los corchetes brillan en verde */
 .product-card:hover::before,
 .product-card:hover::after {
   border-color: var(--accent);
   opacity: 1;
+}
+
+/* ---------- ESTRUCTURA DE VISTA DE DETALLE (SPA MODULAR) ---------- */
+#productDetailView {
+  padding: 1rem 0;
+  animation: oxiumFadeIn 0.3s ease-out;
+}
+
+@keyframes oxiumFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Bloque 1 */
+.detail-main-block {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 3.5rem;
+  margin-bottom: 4rem;
+}
+.detail-large-swatch {
+  height: 440px;
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+}
+.detail-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.selector-row { margin: 0.8rem 0; }
+.size-options, .color-options { display: flex; gap: 0.6rem; margin-top: 0.4rem; }
+.size-options span {
+  border: 1px solid var(--line-strong);
+  padding: 0.4rem 0.9rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  transition: all 0.2s ease;
+}
+.size-options span.active, .size-options span:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.color-dot {
+  width: 26px; height: 26px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  position: relative;
+}
+.color-dot.active { border-color: var(--accent); }
+
+/* Bloque 2: Lookbook */
+.look-block { margin-bottom: 4.5rem; }
+.look-frame {
+  position: relative;
+  background: #030303;
+  border: 1px solid var(--line);
+  padding: 3rem 2rem;
+  overflow: hidden;
+}
+.look-interactive-area {
+  position: relative;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.look-center-render {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+}
+.look-tag {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  z-index: 5;
+}
+.look-tag-dot {
+  width: 10px; height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent);
+}
+.look-tag-card {
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid var(--line-strong);
+  padding: 0.5rem 0.9rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+}
+.look-tag-card p { margin: 0; font-weight: 500; color: var(--text); }
+.look-tag-card span { color: var(--accent); font-size: 0.65rem; }
+
+/* Bloque 3 */
+.suggestions-block {
+  border-top: 1px solid var(--line);
+  padding-top: 3.5rem;
+}
+
+@media (max-width: 768px) {
+  .detail-main-block { grid-template-columns: 1fr; gap: 2rem; }
+  .detail-large-swatch { height: 300px; }
+  .look-interactive-area { height: 340px; }
+  .look-tag { position: relative; left: 0 !important; top: 0 !important; margin-bottom: 0.8rem; }
 }

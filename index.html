@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>OXIUM — Tienda oficial</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=99" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OXIUM — Tienda oficial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
   <div class="grid-overlay" aria-hidden="true"></div>
 
-  <!-- BARRA TIPO VENTANA DE NAVEGADOR -->
   <div class="chrome-bar">
     <div class="chrome-dots"><span></span><span></span><span></span></div>
     <div class="chrome-url">https://oxiumlabs.net</div>
     <div class="chrome-spacer"></div>
   </div>
 
-  <!-- NAV -->
   <header class="nav">
     <div class="nav-col">
       <p class="nav-label">Productos <span>/ shop</span></p>
@@ -46,7 +44,6 @@
     </div>
   </header>
 
-  <!-- HERO -->
   <section class="hero">
     <span class="crosshair crosshair--tl">+</span>
     <span class="crosshair crosshair--tr">+</span>
@@ -56,22 +53,79 @@
     <div class="hero-frame">
       <p class="hero-tag">Engineered for the Unknown</p>
       <h1 class="hero-title">OXIUM</h1>
-      <p class="hero-sub">Laboratorio de ideas para el futuro frio, funcional y preciso.</p>
+      <p class="hero-sub">Laboratorio de ideas para el futuro frío, funcional y preciso.</p>
     </div>
 
     <div class="hero-tab">Productos / catalog</div>
   </section>
 
-  <!-- CATALOGO -->
   <section id="catalogo" class="catalog">
-    <div class="section-head">
-      <h2>Catálogo <span>/ 01</span></h2>
-      <p>Piezas construidas para durar — precios en MXN.</p>
+    
+    <div id="catalogFront">
+      <div class="section-head">
+        <h2>Catálogo <span>/ 01</span></h2>
+        <p>Piezas construidas para durar — precios en MXN.</p>
+      </div>
+      <div id="productGrid" class="product-grid"></div>
     </div>
-    <div id="productGrid" class="product-grid"></div>
+
+    <div id="productDetailView" class="hidden">
+      <button id="backToCatalog" class="link-btn" style="margin-bottom: 2.5rem; color: var(--accent);">← VOLVER_AL_CATÁLOGO</button>
+      
+      <div class="detail-main-block">
+        <div class="detail-gallery">
+          <div id="detailSwatch" class="product-swatch detail-large-swatch"></div>
+        </div>
+        <div class="detail-info">
+          <span class="panel-label">// ESPECIFICACIÓN_TÉCNICA</span>
+          <h2 id="detailName" class="hero-title" style="font-size: 2.5rem; margin: 0.5rem 0; text-align: left; letter-spacing: 0;"></h2>
+          <p id="detailPrice" class="price" style="font-size: 1.3rem; color: var(--accent); font-weight: 700;"></p>
+          <p id="detailDesc" class="hero-sub" style="margin: 1.5rem 0; font-size: 0.85rem; text-align: left; max-width: 100%;"></p>
+          
+          <div class="selector-row">
+            <p class="nav-label">Talla <span>/ size</span></p>
+            <div class="size-options">
+              <span class="active">S</span><span>M</span><span>L</span><span>XL</span>
+            </div>
+          </div>
+
+          <div class="selector-row" style="margin-top: 1rem;">
+            <p class="nav-label">Color <span>/ tint</span></p>
+            <div class="color-options">
+              <span class="color-dot active" style="background: #2f4a38;"></span>
+              <span class="color-dot" style="background: #1a1a1a;"></span>
+              <span class="color-dot" style="background: #555;"></span>
+            </div>
+          </div>
+
+          <button id="detailAddBtn" class="btn full" style="margin-top: 2rem;">AÑADIR_A_LA_CARGA</button>
+        </div>
+      </div>
+
+      <div class="look-block">
+        <div class="look-frame">
+          <div class="crosshair crosshair--tl">+</div><div class="crosshair crosshair--tr">+</div>
+          <div class="crosshair crosshair--bl">+</div><div class="crosshair crosshair--br">+</div>
+          
+          <h3 class="wordmark" style="font-size: 1.1rem; margin-bottom: 1.5rem; letter-spacing: 0.1em; text-align: center;">COMPLETE THE LOOK</h3>
+          
+          <div class="look-interactive-area">
+            <div class="look-center-render">
+              <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.3" style="width:55%; height:55%;"><path d="M12 2a3 3 0 0 0-3 3v2a5 5 0 0 0-5 5v8h16v-8a5 5 0 0 0-5-5V5a3 3 0 0 0-3-3z"/></svg>
+            </div>
+            <div id="lookTagsContainer"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="suggestions-block">
+        <p class="nav-label" style="text-align: center; margin-bottom: 2rem;">Operaciones sugeridas <span>/ you may also like</span></p>
+        <div id="suggestionsGrid" class="product-grid" style="border: 1px solid var(--line);"></div>
+      </div>
+    </div>
+
   </section>
 
-  <!-- CLUB / SUSCRIPCION -->
   <section id="club" class="club">
     <div class="club-inner">
       <div>
@@ -83,7 +137,6 @@
     </div>
   </section>
 
-  <!-- FOOTER: FICHA TECNICA -->
   <footer id="contacto" class="footer">
     <div class="footer-grid">
       <div class="footer-barcode" aria-hidden="true"></div>
@@ -106,7 +159,6 @@
     </div>
   </footer>
 
-  <!-- ACCOUNT PANEL -->
   <div id="accountOverlay" class="overlay hidden">
     <div class="panel">
       <button class="close-btn" data-close="accountOverlay">&times;</button>
@@ -149,7 +201,6 @@
     </div>
   </div>
 
-  <!-- CART DRAWER -->
   <div id="cartOverlay" class="overlay hidden">
     <div class="panel">
       <button class="close-btn" data-close="cartOverlay">&times;</button>
@@ -165,7 +216,6 @@
     </div>
   </div>
 
-  <!-- TOAST -->
   <div id="toast" class="toast hidden"></div>
 
   <script src="script.js"></script>

@@ -1,16 +1,16 @@
 /* ==========================================================
-   OXIUM — lógica de tienda + cuentas + niveles
+   OXIUM — lógica de tienda + cuentas + niveles + SPA de detalle
    Todo se guarda en localStorage: funciona sin backend.
    ========================================================== */
 
-// ---------- Datos del catálogo ----------
+// ---------- Datos del catálogo Expandidos ----------
 const PRODUCTS = [
-  { id: "p1", name: "Chaqueta Oxide Trench", desc: "Gabardina resistente al agua", price: 1890, swatch: "#b5651d" },
-  { id: "p2", name: "Pantalón Alloy Cargo", desc: "Corte recto, bolsillos utilitarios", price: 1290, swatch: "#7c93a3" },
-  { id: "p3", name: "Camiseta Raw Steel", desc: "Algodón pesado 240g", price: 590, swatch: "#9ca3a1" },
-  { id: "p4", name: "Sudadera Patina Hoodie", desc: "Interior afelpado", price: 1450, swatch: "#4c7a69" },
-  { id: "p5", name: "Falda Titanium Pleat", desc: "Plisado permanente", price: 1190, swatch: "#e8e6e1" },
-  { id: "p6", name: "Chaleco Corrosión", desc: "Acolchado ligero", price: 1590, swatch: "#8a4a2a" },
+  { id: "p1", name: "Chaqueta Oxide Trench", desc: "Gabardina táctica de corte extendido con resistencia térmica avanzada e impermeabilidad molecular.", price: 1890, swatch: "#b5651d", look: [{name:"Jeans Alloy", price:"1,290"}, {name:"Raw Steel Tee", price:"590"}] },
+  { id: "p2", name: "Pantalón Alloy Cargo", desc: "Corte técnico modular, bolsillos utilitarios integrados con solapas de seguridad militar.", price: 1290, swatch: "#7c93a3", look: [{name:"Patina Hoodie", price:"1,450"}] },
+  { id: "p3", name: "Camiseta Raw Steel", desc: "Algodón ultra pesado de 240g optimizado para transpirabilidad y durabilidad urbana.", price: 590, swatch: "#9ca3a1", look: [{name:"Oxide Trench", price:"1,890"}, {name:"Chaleco Corrosión", price:"1,590"}] },
+  { id: "p4", name: "Sudadera Patina Hoodie", desc: "Interior afelpado de alta densidad con capucha ergonómica ajustable ante ráfagas frías.", price: 1450, swatch: "#4c7a69", look: [{name:"Alloy Cargo", price:"1,290"}] },
+  { id: "p5", name: "Falda Titanium Pleat", desc: "Estructura plisada de permanencia industrial con cinturón de ajuste de polímero técnico.", price: 1190, swatch: "#e8e6e1", look: [{name:"Raw Steel Tee", price:"590"}] },
+  { id: "p6", name: "Chaleco Corrosión", desc: "Acolchado modular ligero con recubrimiento reflectante ante espectros de baja luz.", price: 1590, swatch: "#8a4a2a", look: [{name:"Raw Steel Tee", price:"590"}, {name:"Alloy Cargo", price:"1,290"}] },
 ];
 
 const JACKET_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="#f2f2f0" stroke-width="1.2"><path d="M8 2l4 2 4-2 4 4-2 3v13H4V9L2 6l6-4z"/></svg>`;
@@ -38,7 +38,6 @@ function getLevelInfo(points) {
   return { current, next, progress };
 }
 
-// 1 punto por cada $10 MXN gastados
 function pointsFromAmount(amount) {
   return Math.round(amount / 10);
 }
@@ -69,26 +68,100 @@ function showToast(msg) {
   setTimeout(() => el.classList.add("hidden"), 2200);
 }
 
-// ---------- Render: catálogo ----------
+// ---------- Render: catálogo principal ----------
 function renderProducts() {
   const grid = document.getElementById("productGrid");
   grid.innerHTML = "";
   PRODUCTS.forEach((p) => {
     const card = document.createElement("div");
     card.className = "product-card";
+    card.style.cursor = "pointer";
     card.innerHTML = `
       <div class="product-swatch" style="background:${p.swatch}33">${JACKET_SVG}</div>
       <p class="product-name">${p.name}</p>
-      <p class="product-desc">${p.desc}</p>
+      <p class="product-desc">${p.desc.substring(0, 45)}...</p>
       <div class="product-row">
         <span class="price">$${p.price.toLocaleString("es-MX")} MXN</span>
-        <button class="add-btn" data-id="${p.id}">Agregar</button>
+        <button class="add-btn" data-id="${p.id}">Especificar</button>
       </div>
     `;
+    
+    // Clic en la tarjeta abre la ficha técnica
+    card.addEventListener("click", (e) => {
+      if (!e.target.classList.contains('add-btn')) openProductDetail(p.id);
+    });
+    card.querySelector(".add-btn").addEventListener("click", () => openProductDetail(p.id));
+
     grid.appendChild(card);
   });
-  grid.querySelectorAll(".add-btn").forEach((btn) => {
-    btn.addEventListener("click", () => addToCart(btn.dataset.id));
+}
+
+// ---------- Lógica SPA de Detalle de Producto ----------
+function openProductDetail(productId) {
+  const p = PRODUCTS.find(item => item.id === productId);
+  if (!p) return;
+
+  // Intercambiar visibilidad de bloques
+  document.getElementById("catalogFront").classList.add("hidden");
+  document.getElementById("productDetailView").classList.remove("hidden");
+
+  // Inyectar Bloque 1 (Info Central)
+  document.getElementById("detailName").textContent = p.name.toUpperCase();
+  document.getElementById("detailPrice").textContent = `$${p.price.toLocaleString("es-MX")} MXN`;
+  document.getElementById("detailDesc").textContent = p.desc;
+  
+  const detailSwatch = document.getElementById("detailSwatch");
+  detailSwatch.style.background = p.swatch + "33";
+  detailSwatch.innerHTML = JACKET_SVG;
+
+  document.getElementById("detailAddBtn").onclick = () => addToCart(p.id);
+
+  // Inyectar Bloque 2: Complete the Look (Nodos flotantes)
+  const tagsContainer = document.getElementById("lookTagsContainer");
+  tagsContainer.innerHTML = "";
+  
+  p.look.forEach((item, index) => {
+    const tag = document.createElement("div");
+    tag.className = "look-tag";
+    tag.style.top = `${25 + (index * 30)}%`;
+    tag.style.left = index % 2 === 0 ? "12%" : "68%";
+    tag.innerHTML = `
+      <div class="look-tag-dot"></div>
+      <div class="look-tag-card">
+        <p>${item.name.toUpperCase()}</p>
+        <span>$${item.price} MXN</span>
+      </div>
+    `;
+    tagsContainer.appendChild(tag);
+  });
+
+  // Inyectar Bloque 3: Sugerencias Relacionadas con mismos iconos de mira
+  const suggestionsGrid = document.getElementById("suggestionsGrid");
+  suggestionsGrid.innerHTML = "";
+  const filtered = PRODUCTS.filter(item => item.id !== p.id).slice(0, 3);
+
+  filtered.forEach((item) => {
+    const card = document.createElement("div");
+    card.className = "product-card";
+    card.style.cursor = "pointer";
+    card.innerHTML = `
+      <div class="product-swatch" style="background:${item.swatch}33">${JACKET_SVG}</div>
+      <p class="product-name">${item.name}</p>
+      <div class="product-row">
+        <span class="price">$${item.price.toLocaleString("es-MX")} MXN</span>
+        <button class="add-btn" data-id="${item.id}">Ver</button>
+      </div>
+    `;
+    
+    // Navegación instantánea interna entre productos recomendados
+    const triggers = [card, card.querySelector(".add-btn")];
+    triggers.forEach(t => t.addEventListener("click", (e) => {
+      if (t === card && e.target.classList.contains('add-btn')) return;
+      openProductDetail(item.id);
+      window.scrollTo({ top: document.getElementById("catalogo").offsetTop, behavior: 'smooth' });
+    }));
+
+    suggestionsGrid.appendChild(card);
   });
 }
 
@@ -108,7 +181,6 @@ function removeFromCart(productId) {
   renderCart();
 }
 
-// [AJUSTE 1]: Modificado para que siempre use los valores en tiempo real del array global
 function cartTotal() {
   return cart.reduce((sum, item) => {
     const p = PRODUCTS.find((p) => p.id === item.id);
@@ -146,7 +218,6 @@ function renderCart() {
   });
 
   document.getElementById("cartTotal").textContent = `$${cartTotal().toLocaleString("es-MX")} MXN`;
-  // [AJUSTE 2]: Se añade el formato de corchetes dinámicos para mantener tu diseño original HTML
   countEl.textContent = `[${totalQty}]`;
 }
 
@@ -170,13 +241,10 @@ function checkout() {
 
 // ---------- Cuenta ----------
 function login(name, email) {
-  // [AJUSTE 3]: Corrección en la validación de persistencia. 
-  // Si el usuario ya existía en localStorage con ese email, recuperamos sus puntos e historial.
   const existingUser = loadUser();
   user = existingUser && existingUser.email === email
     ? existingUser
     : { name, email, points: 0, history: [] };
-    
   saveUser(user);
   renderProfile();
   showToast(`Terminal enlazada: ${user.name}`);
@@ -185,7 +253,7 @@ function login(name, email) {
 function logout() {
   user = null;
   clearUser();
-  document.getElementById("navUserLabel").textContent = "Entrar"; // [AJUSTE 4]: Sincronizado con el texto original del HTML
+  document.getElementById("navUserLabel").textContent = "Entrar";
   document.getElementById("authView").classList.remove("hidden");
   document.getElementById("profileView").classList.add("hidden");
 }
@@ -200,8 +268,6 @@ function renderProfile() {
   document.getElementById("profileEmail").textContent = user.email;
 
   const { current, next, progress } = getLevelInfo(user.points);
-  
-  // Modificaciones estéticas usando las propiedades CSS dinámicas
   document.getElementById("levelBadge").style.background = current.color + "33";
   document.getElementById("levelBadge").style.borderColor = current.color;
   document.getElementById("levelName").textContent = `${current.name} · ${user.points} pts`;
@@ -253,6 +319,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = document.getElementById("authEmail").value.trim();
     if (!name || !email) { showToast("Completa nombre y correo"); return; }
     login(name, email);
+  });
+
+  document.getElementById("backToCatalog").addEventListener("click", () => {
+    document.getElementById("productDetailView").classList.add("hidden");
+    document.getElementById("catalogFront").classList.remove("hidden");
   });
 
   document.getElementById("logoutBtn").addEventListener("click", logout);

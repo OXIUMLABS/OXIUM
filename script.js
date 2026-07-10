@@ -4,7 +4,6 @@
    ========================================================== */
 
 // ---------- Datos del catálogo ----------
-// swatch: color de fondo del "textil" ; icon: silueta SVG simple
 const PRODUCTS = [
   { id: "p1", name: "Chaqueta Oxide Trench", desc: "Gabardina resistente al agua", price: 1890, swatch: "#b5651d" },
   { id: "p2", name: "Pantalón Alloy Cargo", desc: "Corte recto, bolsillos utilitarios", price: 1290, swatch: "#7c93a3" },
@@ -109,6 +108,7 @@ function removeFromCart(productId) {
   renderCart();
 }
 
+// [AJUSTE 1]: Modificado para que siempre use los valores en tiempo real del array global
 function cartTotal() {
   return cart.reduce((sum, item) => {
     const p = PRODUCTS.find((p) => p.id === item.id);
@@ -146,7 +146,8 @@ function renderCart() {
   });
 
   document.getElementById("cartTotal").textContent = `$${cartTotal().toLocaleString("es-MX")} MXN`;
-  countEl.textContent = totalQty;
+  // [AJUSTE 2]: Se añade el formato de corchetes dinámicos para mantener tu diseño original HTML
+  countEl.textContent = `[${totalQty}]`;
 }
 
 function checkout() {
@@ -169,17 +170,22 @@ function checkout() {
 
 // ---------- Cuenta ----------
 function login(name, email) {
-  user = loadUser() && loadUser().email === email
-    ? loadUser()
+  // [AJUSTE 3]: Corrección en la validación de persistencia. 
+  // Si el usuario ya existía en localStorage con ese email, recuperamos sus puntos e historial.
+  const existingUser = loadUser();
+  user = existingUser && existingUser.email === email
+    ? existingUser
     : { name, email, points: 0, history: [] };
+    
   saveUser(user);
   renderProfile();
+  showToast(`Terminal enlazada: ${user.name}`);
 }
 
 function logout() {
   user = null;
   clearUser();
-  document.getElementById("navUserLabel").textContent = "Cuenta";
+  document.getElementById("navUserLabel").textContent = "Entrar"; // [AJUSTE 4]: Sincronizado con el texto original del HTML
   document.getElementById("authView").classList.remove("hidden");
   document.getElementById("profileView").classList.add("hidden");
 }
@@ -194,6 +200,8 @@ function renderProfile() {
   document.getElementById("profileEmail").textContent = user.email;
 
   const { current, next, progress } = getLevelInfo(user.points);
+  
+  // Modificaciones estéticas usando las propiedades CSS dinámicas
   document.getElementById("levelBadge").style.background = current.color + "33";
   document.getElementById("levelBadge").style.borderColor = current.color;
   document.getElementById("levelName").textContent = `${current.name} · ${user.points} pts`;

@@ -7,8 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <!-- Agregamos ?v=103 para obligar a romper la caché de tu Mac de golpe -->
-  <link rel="stylesheet" href="styles.css?v=103" />
+  <link rel="stylesheet" href="styles.css?v=104" />
 </head>
 <body>
 
@@ -66,7 +65,6 @@
   <!-- CATALOGO Y VISTA DE DETALLE INTERACTIVA -->
   <section id="catalogo" class="catalog">
     
-    <!-- CONTENEDOR FRONTAL DEL CATÁLOGO -->
     <div id="catalogFront">
       <div class="section-head">
         <h2>Catálogo <span>/ 01</span></h2>
@@ -75,11 +73,9 @@
       <div id="productGrid" class="product-grid"></div>
     </div>
 
-    <!-- CONTENEDOR DE LA VISTA DE DETALLE DE TRES BLOQUES -->
     <div id="productDetailView" class="hidden">
       <button id="backToCatalog" class="link-btn" style="margin-bottom: 2.5rem; color: var(--accent);">← VOLVER_AL_CATÁLOGO</button>
       
-      <!-- BLOQUE 1: Galería, especificaciones y selectores -->
       <div class="detail-main-block">
         <div class="detail-gallery">
           <div id="detailSwatch" class="product-swatch detail-large-swatch"></div>
@@ -110,7 +106,6 @@
         </div>
       </div>
 
-      <!-- BLOQUE 2: Complete the Look Interactivo -->
       <div class="look-block">
         <div class="look-frame">
           <div class="crosshair crosshair--tl">+</div><div class="crosshair crosshair--tr">+</div>
@@ -127,13 +122,11 @@
         </div>
       </div>
 
-      <!-- BLOQUE 3: Productos Relacionados -->
       <div class="suggestions-block">
         <p class="nav-label" style="text-align: center; margin-bottom: 2rem;">Operaciones sugeridas <span>/ you may also like</span></p>
         <div id="suggestionsGrid" class="product-grid" style="border: 1px solid var(--line);"></div>
       </div>
     </div>
-
   </section>
 
   <!-- CLUB / SUSCRIPCION -->
@@ -171,22 +164,32 @@
     </div>
   </footer>
 
-  <!-- ACCOUNT PANEL -->
+  <!-- ACCOUNT & PROFILE DRAWER MODULAR -->
   <div id="accountOverlay" class="overlay hidden">
     <div class="panel">
       <button class="close-btn" data-close="accountOverlay">&times;</button>
 
+      <!-- VISTA 1: Autenticación Avanzada -->
       <div id="authView">
-        <p class="panel-label">Cuenta / 03</p>
-        <h3>Entrar o crear cuenta</h3>
-        <input id="authName" type="text" placeholder="Nombre" />
-        <input id="authEmail" type="email" placeholder="Correo electrónico" />
-        <button id="authSubmit" class="btn full">Entrar</button>
-        <p class="fineprint">Tus datos y puntos se guardan solo en este navegador (localStorage).</p>
+        <p class="panel-label">Acceso / 03</p>
+        <h3 id="authTitle">Establecer terminal</h3>
+        
+        <div id="registerOnlyFields">
+          <input id="authName" type="text" placeholder="Nombre de Operador" />
+        </div>
+        <input id="authEmail" type="email" placeholder="Correo electrónico (ID)" />
+        <input id="authPassword" type="password" placeholder="Clave encriptada" />
+        
+        <button id="authSubmit" class="btn full">Ejecutar Enlace</button>
+        
+        <p class="fineprint" style="text-align: center; margin-top: 1rem; cursor: pointer; color: var(--accent);" id="toggleAuthMode">
+          ¿Ya posees una terminal activa? Acceder.
+        </p>
       </div>
 
+      <!-- VISTA 2: Mi Perfil Avanzado (SPA Interno) -->
       <div id="profileView" class="hidden">
-        <p class="panel-label">Cuenta / 03</p>
+        <p class="panel-label">Terminal / Activa</p>
         <div class="profile-head">
           <div id="levelBadge" class="level-badge"></div>
           <div>
@@ -206,10 +209,41 @@
         </div>
         <p id="levelDesc" class="fineprint level-desc"></p>
 
-        <p class="panel-label">Historial</p>
+        <!-- SUB-SECCIÓN: Configuración de Parámetros/Preferencias -->
+        <p class="panel-label">// PARÁMETROS GENERALES</p>
+        <div class="profile-settings-block">
+          <div class="setting-item">
+            <label class="fineprint">TALLA DEFAULT</label>
+            <select id="prefSize" class="technical-select">
+              <option value="S">S // SMALL</option>
+              <option value="M">M // MEDIUM</option>
+              <option value="L">L // LARGE</option>
+              <option value="XL">XL // EXTRA LARGE</option>
+            </select>
+          </div>
+          <div class="setting-item" style="margin-top: 0.8rem;">
+            <label class="fineprint">PALETA RECEPTORA</label>
+            <select id="prefColor" class="technical-select">
+              <option value="#2f4a38">OXIDE GREEN</option>
+              <option value="#1a1a1a">RAW BLACK</option>
+              <option value="#55554f">STEEL GREY</option>
+            </select>
+          </div>
+          <button id="savePrefsBtn" class="btn full" style="font-size:0.7rem; padding:0.5rem; margin-top:0.8rem;">Actualizar Configuración</button>
+        </div>
+
+        <!-- SUB-SECCIÓN: Administración de cuenta -->
+        <p class="panel-label" style="margin-top: 1.5rem;">// ADMINISTRACIÓN DE TERMINAL</p>
+        <div class="profile-settings-block">
+          <input id="updateEmail" type="email" placeholder="Modificar Correo electrónico" />
+          <input id="updatePassword" type="password" placeholder="Modificar Clave encriptada" />
+          <button id="updateAccountBtn" class="btn btn-outline full" style="font-size:0.7rem; padding:0.5rem;">Sincronizar Credenciales</button>
+        </div>
+
+        <p class="panel-label" style="margin-top: 1.5rem;">Historial</p>
         <ul id="historyList" class="history-list"></ul>
 
-        <button id="logoutBtn" class="btn btn-outline full">Cerrar sesión</button>
+        <button id="logoutBtn" class="btn btn-outline full" style="border-color: #ff5555; color: #ff5555; margin-top: 2rem;">Cerrar sesión</button>
       </div>
     </div>
   </div>
@@ -233,22 +267,18 @@
   <!-- TOAST -->
   <div id="toast" class="toast hidden"></div>
 
-  <!-- ANUNCIO POP-UP DE ENTRADA (MEMBRESÍA) -->
+  <!-- ANUNCIO POP-UP DE ENTRADA -->
   <div id="promoOverlay" class="overlay hidden" style="justify-content: center; align-items: center; background: rgba(0,0,0,0.85);">
     <div class="panel promo-modal">
       <button class="close-btn" id="closePromoBtn">&times;</button>
-      
       <p class="panel-label">// BENEFICIOS EXCLUSIVOS</p>
       <h3 class="wordmark" style="font-size: 1.2rem; margin-bottom: 1rem;">RED PROTOCOL: ACTIVADA</h3>
-      
       <div class="product-swatch" style="height: 140px; margin-bottom: 1.5rem; background: rgba(95, 217, 122, 0.05); border-color: var(--line-strong);">
         <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       </div>
-
       <p class="hero-sub" style="font-size: 0.8rem; text-align: left; margin-bottom: 1.5rem; color: var(--text);">
-        Unete al <span style="color: var(--accent);">Club Oxium</span> para recibir puntos y asegurar acceso prioritario a prototipos.
+        Enlaza tu terminal al <span style="color: var(--accent);">Club Oxium</span> para recibir transmisiones encriptadas, acumular puntos de rango con multiplicador <span style="color: var(--accent);">x1.5</span> y asegurar acceso prioritario a prototipos.
       </p>
-
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
         <button id="promoLoginBtn" class="btn">INGRESAR</button>
         <button id="promoRegBtn" class="btn btn-outline">UNIRME</button>

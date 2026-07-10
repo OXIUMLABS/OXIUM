@@ -1,9 +1,8 @@
 /* ==========================================================
-   OXIUM — lógica de tienda + cuentas + niveles + SPA de detalle
-   Todo se guarda en localStorage: funciona sin backend.
+   OXIUM — lógica de tienda + cuentas avanzadas + SPA perfil
+   Todo se guarda en localStorage de forma persistente.
    ========================================================== */
 
-// ---------- Datos del catálogo Expandidos ----------
 const PRODUCTS = [
   { id: "p1", name: "Chaqueta Oxide Trench", desc: "Gabardina táctica de corte extendido con resistencia térmica avanzada e impermeabilidad molecular.", price: 1890, swatch: "#b5651d", look: [{name:"Jeans Alloy", price:"1,290"}, {name:"Raw Steel Tee", price:"590"}] },
   { id: "p2", name: "Pantalón Alloy Cargo", desc: "Corte técnico modular, bolsillos utilitarios integrados con solapas de seguridad militar.", price: 1290, swatch: "#7c93a3", look: [{name:"Patina Hoodie", price:"1,450"}] },
@@ -15,7 +14,6 @@ const PRODUCTS = [
 
 const JACKET_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="#f2f2f0" stroke-width="1.2"><path d="M8 2l4 2 4-2 4 4-2 3v13H4V9L2 6l6-4z"/></svg>`;
 
-// ---------- Niveles (escala técnica, acentos en verde) ----------
 const LEVELS = [
   { id: "base", name: "Base / 01", threshold: 0, color: "#2f4a38", desc: "Cuenta recién registrada." },
   { id: "field", name: "Field / 02", threshold: 100, color: "#3f6b4c", desc: "Primeras compras registradas." },
@@ -23,6 +21,20 @@ const LEVELS = [
   { id: "command", name: "Command / 04", threshold: 700, color: "#5fd97a", desc: "Alta fidelidad. Beneficios prioritarios en envíos." },
   { id: "prototype", name: "Prototype / 05", threshold: 1500, color: "#9cff9c", desc: "Nivel máximo. Acceso total a beneficios Oxium." },
 ];
+
+// ---------- Manejo de Estado Multi-Usuario ----------
+const USERS_DATABASE_KEY = "oxium_global_users";
+const SESSION_KEY = "oxium_active_session";
+const CART_KEY = "oxium_cart";
+
+function getGlobalUsers() {
+  try { return JSON.parse(localStorage.getItem(USERS_DATABASE_KEY)) || []; } catch { return []; }
+}
+function saveGlobalUsers(users) { localStorage.setItem(USERS_DATABASE_KEY, JSON.stringify(users)); }
+
+let user = JSON.parse(localStorage.getItem(SESSION_KEY)) || null;
+let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+let isLoginMode = false; // Modo por defecto: Registro
 
 function getLevelInfo(points) {
   let current = LEVELS[0], next = LEVELS[1] || null;
@@ -32,43 +44,18 @@ function getLevelInfo(points) {
       next = LEVELS[LEVELS.indexOf(lvl) + 1] || null;
     }
   }
-  const progress = next
-    ? Math.min(100, Math.round(((points - current.threshold) / (next.threshold - current.threshold)) * 100))
-    : 100;
+  const progress = next ? Math.min(100, Math.round(((points - current.threshold) / (next.threshold - current.threshold)) * 100)) : 100;
   return { current, next, progress };
 }
 
-function pointsFromAmount(amount) {
-  return Math.round(amount / 10);
-}
-
-// ---------- Estado (localStorage) ----------
-const STORAGE_KEY = "oxium_user";
-const CART_KEY = "oxium_cart";
-
-function loadUser() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch { return null; }
-}
-function saveUser(user) { localStorage.setItem(STORAGE_KEY, JSON.stringify(user)); }
-function clearUser() { localStorage.removeItem(STORAGE_KEY); }
-
-function loadCart() {
-  try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { return []; }
-}
-function saveCart(cart) { localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
-
-let user = loadUser();
-let cart = loadCart();
-
-// ---------- Toast ----------
+function pointsFromAmount(amount) { return Math.round(amount / 10); }
 function showToast(msg) {
   const el = document.getElementById("toast");
-  el.textContent = msg;
-  el.classList.remove("hidden");
+  el.textContent = msg.toUpperCase(); el.classList.remove("hidden");
   setTimeout(() => el.classList.add("hidden"), 2200);
 }
 
-// ---------- Render: catálogo principal ----------
+// ---------- Render de Catálogo e Interfaz SPA ----------
 function renderProducts() {
   const grid = document.getElementById("productGrid");
   grid.innerHTML = "";
@@ -85,17 +72,12 @@ function renderProducts() {
         <button class="add-btn" data-id="${p.id}">Especificar</button>
       </div>
     `;
-    
-    card.addEventListener("click", (e) => {
-      if (!e.target.classList.contains('add-btn')) openProductDetail(p.id);
-    });
+    card.addEventListener("click", (e) => { if (!e.target.classList.contains('add-btn')) openProductDetail(p.id); });
     card.querySelector(".add-btn").addEventListener("click", () => openProductDetail(p.id));
-
     grid.appendChild(card);
   });
 }
 
-// ---------- Lógica SPA de Detalle de Producto ----------
 function openProductDetail(productId) {
   const p = PRODUCTS.find(item => item.id === productId);
   if (!p) return;
@@ -113,50 +95,35 @@ function openProductDetail(productId) {
 
   document.getElementById("detailAddBtn").onclick = () => addToCart(p.id);
 
+  // Auto-seleccionar preferencias si el usuario está logueado
+  if (user && user.preferences) {
+    document.querySelectorAll(".size-options span").forEach(s => {
+      s.classList.toggle("active", s.textContent === user.preferences.size);
+    });
+  }
+
   // Bloque 2: Complete the Look
   const tagsContainer = document.getElementById("lookTagsContainer");
   tagsContainer.innerHTML = "";
-  
   p.look.forEach((item, index) => {
     const tag = document.createElement("div");
     tag.className = "look-tag";
-    tag.style.top = `${25 + (index * 30)}%`;
-    tag.style.left = index % 2 === 0 ? "12%" : "68%";
-    tag.innerHTML = `
-      <div class="look-tag-dot"></div>
-      <div class="look-tag-card">
-        <p>${item.name.toUpperCase()}</p>
-        <span>$${item.price} MXN</span>
-      </div>
-    `;
+    tag.style.top = `${25 + (index * 30)}%`; tag.style.left = index % 2 === 0 ? "12%" : "68%";
+    tag.innerHTML = `<div class="look-tag-dot"></div><div class="look-tag-card"><p>${item.name.toUpperCase()}</p><span>$${item.price} MXN</span></div>`;
     tagsContainer.appendChild(tag);
   });
 
-  // Bloque 3: Sugerencias Relacionadas
+  // Bloque 3: Sugerencias
   const suggestionsGrid = document.getElementById("suggestionsGrid");
   suggestionsGrid.innerHTML = "";
-  const filtered = PRODUCTS.filter(item => item.id !== p.id).slice(0, 3);
-
-  filtered.forEach((item) => {
-    const card = document.createElement("div");
-    card.className = "product-card";
-    card.style.cursor = "pointer";
-    card.innerHTML = `
-      <div class="product-swatch" style="background:${item.swatch}33">${JACKET_SVG}</div>
-      <p class="product-name">${item.name}</p>
-      <div class="product-row">
-        <span class="price">$${item.price.toLocaleString("es-MX")} MXN</span>
-        <button class="add-btn" data-id="${item.id}">Ver</button>
-      </div>
-    `;
-    
+  PRODUCTS.filter(item => item.id !== p.id).slice(0, 3).forEach((item) => {
+    const card = document.createElement("div"); card.className = "product-card"; card.style.cursor = "pointer";
+    card.innerHTML = `<div class="product-swatch" style="background:${item.swatch}33">${JACKET_SVG}</div><p class="product-name">${item.name}</p><div class="product-row"><span class="price">$${item.price.toLocaleString("es-MX")} MXN</span><button class="add-btn">Ver</button></div>`;
     const triggers = [card, card.querySelector(".add-btn")];
     suggestionsGrid.appendChild(card);
-
     triggers.forEach(t => t.addEventListener("click", (e) => {
       if (t === card && e.target.classList.contains('add-btn')) return;
-      openProductDetail(item.id);
-      window.scrollTo({ top: document.getElementById("catalogo").offsetTop, behavior: 'smooth' });
+      openProductDetail(item.id); window.scrollTo({ top: document.getElementById("catalogo").offsetTop, behavior: 'smooth' });
     }));
   });
 }
@@ -164,94 +131,145 @@ function openProductDetail(productId) {
 // ---------- Carrito ----------
 function addToCart(productId) {
   const existing = cart.find((i) => i.id === productId);
-  if (existing) existing.qty += 1;
-  else cart.push({ id: productId, qty: 1 });
-  saveCart(cart);
-  renderCart();
-  showToast("Agregado al carrito");
+  if (existing) existing.qty += 1; else cart.push({ id: productId, qty: 1 });
+  localStorage.setItem(CART_KEY, JSON.stringify(cart)); renderCart(); showToast("Agregado al carrito");
 }
-
 function removeFromCart(productId) {
   cart = cart.filter((i) => i.id !== productId);
-  saveCart(cart);
-  renderCart();
+  localStorage.setItem(CART_KEY, JSON.stringify(cart)); renderCart();
 }
-
-function cartTotal() {
-  return cart.reduce((sum, item) => {
-    const p = PRODUCTS.find((p) => p.id === item.id);
-    return sum + (p ? p.price * item.qty : 0);
-  }, 0);
-}
-
+function cartTotal() { return cart.reduce((sum, item) => { const p = PRODUCTS.find((p) => p.id === item.id); return sum + (p ? p.price * item.qty : 0); }, 0); }
 function renderCart() {
-  const list = document.getElementById("cartList");
-  const countEl = document.getElementById("cartCount");
-  list.innerHTML = "";
-  let totalQty = 0;
-
-  if (cart.length === 0) {
-    list.innerHTML = `<li style="justify-content:center">Tu carrito está vacío.</li>`;
-  }
-
+  const list = document.getElementById("cartList"); const countEl = document.getElementById("cartCount");
+  list.innerHTML = ""; let totalQty = 0;
+  if (cart.length === 0) list.innerHTML = `<li style="justify-content:center">Tu carrito está vacío.</li>`;
   cart.forEach((item) => {
-    const p = PRODUCTS.find((p) => p.id === item.id);
-    if (!p) return;
-    totalQty += item.qty;
+    const p = PRODUCTS.find((p) => p.id === item.id); if (!p) return; totalQty += item.qty;
     const li = document.createElement("li");
-    li.innerHTML = `
-      <div class="cart-item-name">
-        <span>${p.name}</span>
-        <small>x${item.qty} — $${(p.price * item.qty).toLocaleString("es-MX")} MXN</small>
-      </div>
-      <button class="remove-btn" data-id="${item.id}" aria-label="Quitar">&times;</button>
-    `;
+    li.innerHTML = `<div class="cart-item-name"><span>${p.name}</span><small>x${item.qty} — $${(p.price * item.qty).toLocaleString("es-MX")} MXN</small></div><button class="remove-btn" data-id="${item.id}">&times;</button>`;
     list.appendChild(li);
   });
-
-  list.querySelectorAll(".remove-btn").forEach((btn) => {
-    btn.addEventListener("click", () => removeFromCart(btn.dataset.id));
-  });
-
+  list.querySelectorAll(".remove-btn").forEach(btn => btn.addEventListener("click", () => removeFromCart(btn.dataset.id)));
   document.getElementById("cartTotal").textContent = `$${cartTotal().toLocaleString("es-MX")} MXN`;
   countEl.textContent = `[${totalQty}]`;
 }
 
 function checkout() {
   if (cart.length === 0) { showToast("Tu carrito está vacío"); return; }
-  if (!user) { showToast("Inicia sesión para acumular puntos"); openOverlay("accountOverlay"); return; }
-
-  const total = cartTotal();
-  const earned = pointsFromAmount(total);
+  if (!user) { showToast("Sincroniza terminal para acumular"); openOverlay("accountOverlay"); return; }
+  const total = cartTotal(); const earned = pointsFromAmount(total);
   user.points += earned;
   user.history.push({ label: `Compra ($${total.toLocaleString("es-MX")} MXN)`, points: earned });
-  saveUser(user);
-
-  cart = [];
-  saveCart(cart);
-  renderCart();
-  renderProfile();
-  showToast(`Compra realizada. +${earned} pts`);
-  closeOverlay("cartOverlay");
+  saveActiveSession(user);
+  cart = []; localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  renderCart(); renderProfile(); showToast(`Procesado. +${earned} PTS`); closeOverlay("cartOverlay");
 }
 
-// ---------- Cuenta ----------
-function login(name, email) {
-  const existingUser = loadUser();
-  user = existingUser && existingUser.email === email
-    ? existingUser
-    : { name, email, points: 0, history: [] };
-  saveUser(user);
+// ---------- Autenticación y Control Multi-Usuario ----------
+function toggleAuthMode() {
+  isLoginMode = !isLoginMode;
+  document.getElementById("authTitle").textContent = isLoginMode ? "Acceder a Terminal" : "Establecer terminal";
+  document.getElementById("authSubmit").textContent = isLoginMode ? "Iniciar Enlace" : "Ejecutar Enlace";
+  document.getElementById("registerOnlyFields").classList.toggle("hidden", isLoginMode);
+  document.getElementById("toggleAuthMode").textContent = isLoginMode ? "¿No posees cuenta? Registrar nueva terminal." : "¿Ya posees una terminal activa? Acceder.";
+}
+
+function handleAuth() {
+  const email = document.getElementById("authEmail").value.trim().toLowerCase();
+  const password = document.getElementById("authPassword").value.trim();
+  const name = document.getElementById("authName").value.trim();
+  let usersList = getGlobalUsers();
+
+  if (!email || !password) { showToast("Completa los campos base"); return; }
+
+  if (isLoginMode) {
+    // Modo Login
+    const found = usersList.find(u => u.email === email && u.password === password);
+    if (!found) { showToast("Credenciales inválidas"); return; }
+    user = found;
+  } else {
+    // Modo Registro
+    if (!name) { showToast("Asigna un nombre de operador"); return; }
+    if (usersList.some(u => u.email === email)) { showToast("ID de correo ya registrado"); return; }
+    
+    user = {
+      name, email, password, points: 0, history: [],
+      preferences: { size: "M", color: "#2f4a38" }
+    };
+    usersList.push(user);
+    saveGlobalUsers(usersList);
+  }
+
+  saveActiveSession(user);
   renderProfile();
-  showToast(`Terminal enlazada: ${user.name}`);
+  showToast(`Enlace Exitoso: ${user.name}`);
+  // Limpiar campos
+  document.getElementById("authEmail").value = "";
+  document.getElementById("authPassword").value = "";
+  document.getElementById("authName").value = "";
+}
+
+function saveActiveSession(updatedUser) {
+  user = updatedUser;
+  localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+  // Sincronizar cambios en la "base de datos" global
+  let usersList = getGlobalUsers();
+  const index = usersList.findIndex(u => u.email === user.email);
+  if (index !== -1) {
+    usersList[index] = user;
+    saveGlobalUsers(usersList);
+  }
 }
 
 function logout() {
   user = null;
-  clearUser();
+  localStorage.removeItem(SESSION_KEY);
   document.getElementById("navUserLabel").textContent = "Entrar";
   document.getElementById("authView").classList.remove("hidden");
   document.getElementById("profileView").classList.add("hidden");
+  showToast("Terminal desconectada");
+}
+
+// ---------- Configuración del Perfil Preferencias & Administración ----------
+function savePreferences() {
+  if (!user) return;
+  user.preferences = {
+    size: document.getElementById("prefSize").value,
+    color: document.getElementById("prefColor").value
+  };
+  saveActiveSession(user);
+  showToast("Parámetros actualizados");
+}
+
+function updateAccountCredentials() {
+  if (!user) return;
+  const newEmail = document.getElementById("updateEmail").value.trim().toLowerCase();
+  const newPass = document.getElementById("updatePassword").value.trim();
+  let usersList = getGlobalUsers();
+
+  if (!newEmail && !newPass) { showToast("Digita algún cambio"); return; }
+
+  // Si cambia de correo, validar que no esté duplicado en la DB global
+  if (newEmail && newEmail !== user.email) {
+    if (usersList.some(u => u.email === newEmail)) { showToast("Ese correo ya está ocupado"); return; }
+    // Remover id viejo de la DB global para evitar duplicados
+    usersList = usersList.filter(u => u.email !== user.email);
+    user.email = newEmail;
+  }
+
+  if (newPass) user.password = newPass;
+
+  // Insertar o actualizar en la lista global
+  const idx = usersList.findIndex(u => u.email === user.email);
+  if (idx !== -1) usersList[idx] = user; else usersList.push(user);
+  
+  saveGlobalUsers(usersList);
+  localStorage.setItem(SESSION_KEY, JSON.stringify(user));
+  
+  document.getElementById("updateEmail").value = "";
+  document.getElementById("updatePassword").value = "";
+  renderProfile();
+  showToast("Credenciales sincronizadas");
 }
 
 function renderProfile() {
@@ -260,8 +278,14 @@ function renderProfile() {
   document.getElementById("authView").classList.add("hidden");
   document.getElementById("profileView").classList.remove("hidden");
 
-  document.getElementById("profileName").textContent = user.name;
+  document.getElementById("profileName").textContent = user.name.toUpperCase();
   document.getElementById("profileEmail").textContent = user.email;
+
+  // Cargar selectores con preferencias guardadas
+  if (user.preferences) {
+    document.getElementById("prefSize").value = user.preferences.size || "M";
+    document.getElementById("prefColor").value = user.preferences.color || "#2f4a38";
+  }
 
   const { current, next, progress } = getLevelInfo(user.points);
   document.getElementById("levelBadge").style.background = current.color + "33";
@@ -272,83 +296,49 @@ function renderProfile() {
   document.getElementById("levelBarFill").style.background = current.color;
   document.getElementById("levelDesc").textContent = current.desc;
 
-  const historyList = document.getElementById("historyList");
-  historyList.innerHTML = "";
+  const historyList = document.getElementById("historyList"); historyList.innerHTML = "";
   if (user.history.length === 0) {
     historyList.innerHTML = `<li>Sin movimientos todavía.</li>`;
   } else {
     user.history.slice().reverse().forEach((h) => {
-      const li = document.createElement("li");
-      li.innerHTML = `<span>${h.label}</span><span>+${h.points} pts</span>`;
+      const li = document.createElement("li"); li.innerHTML = `<span>${h.label}</span><span>+${h.points} pts</span>`;
       historyList.appendChild(li);
     });
   }
 }
 
 function subscribe() {
-  if (!user) { showToast("Inicia sesión primero"); openOverlay("accountOverlay"); return; }
+  if (!user) { showToast("Sincroniza terminal primero"); openOverlay("accountOverlay"); return; }
   user.points += 300;
   user.history.push({ label: "Suscripción Club Oxium", points: 300 });
-  saveUser(user);
-  renderProfile();
-  showToast("¡Bienvenido al Club Oxium! +300 pts");
+  saveActiveSession(user); renderProfile(); showToast("¡Club Activado! +300 pts");
 }
 
-// ---------- Overlays ----------
 function openOverlay(id) { document.getElementById(id).classList.remove("hidden"); }
 function closeOverlay(id) { document.getElementById(id).classList.add("hidden"); }
 
 // ---------- Init ----------
 document.addEventListener("DOMContentLoaded", () => {
-  renderProducts();
-  renderCart();
+  renderProducts(); renderCart();
   if (user) renderProfile();
 
   document.getElementById("openAccountBtn").addEventListener("click", () => openOverlay("accountOverlay"));
   document.getElementById("openCartBtn").addEventListener("click", () => openOverlay("cartOverlay"));
-  document.querySelectorAll("[data-close]").forEach((btn) => {
-    btn.addEventListener("click", () => closeOverlay(btn.dataset.close));
-  });
+  document.querySelectorAll("[data-close]").forEach((btn) => btn.addEventListener("click", () => closeOverlay(btn.dataset.close)));
 
-  document.getElementById("authSubmit").addEventListener("click", () => {
-    const name = document.getElementById("authName").value.trim();
-    const email = document.getElementById("authEmail").value.trim();
-    if (!name || !email) { showToast("Completa nombre y correo"); return; }
-    login(name, email);
-  });
-
-  document.getElementById("backToCatalog").addEventListener("click", () => {
-    document.getElementById("productDetailView").classList.add("hidden");
-    document.getElementById("catalogFront").classList.remove("hidden");
-  });
-
+  document.getElementById("toggleAuthMode").addEventListener("click", toggleAuthMode);
+  document.getElementById("authSubmit").addEventListener("click", handleAuth);
+  document.getElementById("savePrefsBtn").addEventListener("click", savePreferences);
+  document.getElementById("updateAccountBtn").addEventListener("click", updateAccountCredentials);
+  
   document.getElementById("logoutBtn").addEventListener("click", logout);
   document.getElementById("checkoutBtn").addEventListener("click", checkout);
   document.getElementById("subscribeBtn").addEventListener("click", subscribe);
 
-  // ---------- LÓGICA ANUNCIO POP-UP DE ENTRADA ----------
+  // Pop-up Promocional
   const promoOverlay = document.getElementById("promoOverlay");
-  
-  // Sale a los 2 segundos si el operador no está logueado
-  if (!user) {
-    setTimeout(() => {
-      promoOverlay.classList.remove("hidden");
-    }, 2000);
-  }
-
-  document.getElementById("closePromoBtn").addEventListener("click", () => {
-    promoOverlay.classList.add("hidden");
-  });
-
-  document.getElementById("promoLoginBtn").addEventListener("click", () => {
-    promoOverlay.classList.add("hidden");
-    openOverlay("accountOverlay");
-    document.getElementById("authName").focus(); 
-  });
-
-  document.getElementById("promoRegBtn").addEventListener("click", () => {
-    promoOverlay.classList.add("hidden");
-    openOverlay("accountOverlay");
-    document.getElementById("authName").focus();
-  });
+  if (!user) { setTimeout(() => { promoOverlay.classList.remove("hidden"); }, 2000); }
+  document.getElementById("closePromoBtn").addEventListener("click", () => promoOverlay.classList.add("hidden"));
+  document.getElementById("promoLoginBtn").addEventListener("click", () => { promoOverlay.classList.add("hidden"); isLoginMode = true; toggleAuthMode(); openOverlay("accountOverlay"); });
+  document.getElementById("promoRegBtn").addEventListener("click", () => { promoOverlay.classList.add("hidden"); isLoginMode = false; toggleAuthMode(); openOverlay("accountOverlay"); });
 });

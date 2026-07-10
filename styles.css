@@ -225,7 +225,6 @@ a { color: inherit; text-decoration: none; }
   position: relative;
   z-index: 1;
   
-  /* Prepara el contorno completo e invisible al inicio */
   outline: 1px solid transparent;
   outline-offset: -1px;
 
@@ -234,12 +233,10 @@ a { color: inherit; text-decoration: none; }
               box-shadow 0.25s ease;
 }
 
-/* ---------- Efecto Completo al pasar el cursor (Hover) ---------- */
+/* ---------- Hover de Producto ---------- */
 .product-card:hover {
   transform: scale(1.02);
-  z-index: 10; /* Eleva la tarjeta sobre las vecinas */
-  
-  /* Activamos el contorno completo en los 4 lados */
+  z-index: 10;
   outline-color: var(--accent); 
   box-shadow: 0 0 15px rgba(95, 217, 122, 0.15); 
 }
@@ -258,7 +255,6 @@ a { color: inherit; text-decoration: none; }
 .product-swatch svg { width: 50%; height: 50%; opacity: 0.8; }
 .product-swatch img { width: 100%; height: 100%; object-fit: cover; }
 
-/* El swatch se ilumina sutilmente al pasar el cursor */
 .product-card:hover .product-swatch {
   filter: grayscale(0.2) contrast(1.1);
   border-color: var(--accent-dim);
@@ -329,7 +325,7 @@ a { color: inherit; text-decoration: none; }
 .club-inner h2 { font-family: var(--font-display); font-size: 1.4rem; text-transform: uppercase; margin: 0.3rem 0; }
 .club-inner .hero-sub { margin-bottom: 0; }
 
-/* ---------- Footer: ficha técnica ---------- */
+/* ---------- Footer ---------- */
 .footer {
   position: relative;
   z-index: 2;
@@ -356,17 +352,11 @@ a { color: inherit; text-decoration: none; }
   );
   opacity: 0.85;
 }
-.footer-label {
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  margin: 0 0 0.2rem;
-}
+.footer-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin: 0 0 0.2rem; }
 .footer-value { font-size: 0.8rem; margin: 0; }
 .footer-fine { color: var(--text-dim); font-size: 0.7rem; }
 
-/* ---------- Overlays / panels (REPARADOS) ---------- */
+/* ---------- Overlays & Panels ---------- */
 .overlay {
   position: fixed;
   inset: 0;
@@ -386,13 +376,7 @@ a { color: inherit; text-decoration: none; }
   overflow-y: auto;
   position: relative;
 }
-.panel-label {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--accent);
-  margin: 0 0 0.8rem;
-}
+.panel-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin: 0 0 0.8rem; }
 .panel h3 { font-family: var(--font-display); font-size: 1.1rem; text-transform: uppercase; margin: 0 0 1rem; }
 .panel h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-faint); margin: 1.2rem 0 0.6rem; }
 
@@ -412,7 +396,7 @@ a { color: inherit; text-decoration: none; }
 }
 .close-btn:hover { color: var(--text); border-color: var(--accent); }
 
-.panel input {
+.panel input, .technical-select {
   width: 100%;
   padding: 0.7rem 0.9rem;
   margin-bottom: 0.8rem;
@@ -424,83 +408,50 @@ a { color: inherit; text-decoration: none; }
   font-size: 0.85rem;
 }
 .panel input::placeholder { color: var(--text-faint); }
-.panel input:focus { outline: none; border-color: var(--accent); }
-.fineprint { font-size: 0.7rem; color: var(--text-faint); margin-top: 0.5rem; }
+.panel input:focus, .technical-select:focus { outline: none; border-color: var(--accent); }
 
-/* Modificador global de visibilidad */
+/* Selector técnico desplegable */
+.technical-select {
+  background: var(--panel);
+  color: var(--text-dim);
+  cursor: pointer;
+}
+.technical-select option {
+  background: #000;
+  color: var(--text);
+}
+
+.profile-settings-block {
+  border: 1px solid var(--line);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: rgba(255,255,255,0.01);
+}
+
 .hidden { display: none !important; }
 
-/* profile */
+/* Profile styling */
 .profile-head { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 1.5rem; }
-.level-badge {
-  width: 44px;
-  height: 44px;
-  flex-shrink: 0;
-  border: 1px solid var(--line-strong);
-}
+.level-badge { width: 44px; height: 44px; flex-shrink: 0; border: 1px solid var(--line-strong); }
 .profile-head h3 { margin: 0; text-transform: none; font-size: 0.95rem; font-family: var(--font-mono); font-weight: 500; }
 
 .level-bar-wrap { margin-bottom: 0.4rem; }
-.level-bar-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.7rem;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.4rem;
-}
-.level-bar-track {
-  height: 6px;
-  background: #111;
-  border: 1px solid var(--line);
-  overflow: hidden;
-}
-.level-bar-fill {
-  height: 100%;
-  width: 0%;
-  transition: width 0.6s ease, background 0.6s ease;
-}
+.level-bar-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+.level-bar-track { height: 6px; background: #111; border: 1px solid var(--line); overflow: hidden; }
+.level-bar-fill { height: 100%; width: 0%; transition: width 0.6s ease, background 0.6s ease; }
 .level-desc { margin-bottom: 1.5rem; }
 
 .history-list, .cart-list { list-style: none; padding: 0; margin: 0 0 1rem; }
-.history-list li, .cart-list li {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.8rem;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--line);
-  color: var(--text-dim);
-}
+.history-list li, .cart-list li { display: flex; justify-content: space-between; font-size: 0.8rem; padding: 0.5rem 0; border-bottom: 1px solid var(--line); color: var(--text-dim); }
 .cart-list li { color: var(--text); align-items: center; }
 .cart-item-name { display: flex; flex-direction: column; }
 .cart-item-name small { color: var(--text-faint); }
 .remove-btn { background: none; border: 1px solid var(--line); color: var(--text-dim); cursor: pointer; font-size: 1rem; width: 24px; height: 24px; }
 .remove-btn:hover { color: var(--text); border-color: var(--line-strong); }
+.cart-total-row { display: flex; justify-content: space-between; font-size: 0.95rem; padding: 1rem 0; border-top: 1px solid var(--line); margin-bottom: 0.5rem; }
 
-.cart-total-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.95rem;
-  padding: 1rem 0;
-  border-top: 1px solid var(--line);
-  margin-bottom: 0.5rem;
-}
-
-/* toast */
-.toast {
-  position: fixed;
-  bottom: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--text);
-  color: #000;
-  padding: 0.7rem 1.2rem;
-  font-size: 0.8rem;
-  z-index: 100;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
+/* Toast */
+.toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); background: var(--text); color: #000; padding: 0.7rem 1.2rem; font-size: 0.8rem; z-index: 100; text-transform: uppercase; letter-spacing: 0.05em; }
 .toast.hidden { display: none; }
 
 @media (max-width: 900px) {
@@ -509,135 +460,32 @@ a { color: inherit; text-decoration: none; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 
-/* ---------- Esquineros decorativos en las tarjetas ---------- */
-.product-card::before,
-.product-card::after {
-  content: "";
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  opacity: 0.5;
-  transition: border-color 0.3s ease, opacity 0.3s ease;
-}
+/* ---------- ESTRUCTURA SPA DE DETALLE ---------- */
+#productDetailView { padding: 1rem 0; animation: oxiumFadeIn 0.3s ease-out; }
+@keyframes oxiumFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-.product-card::before {
-  top: 6px;
-  left: 6px;
-  border-top: 1px solid var(--text-dim);
-  border-left: 1px solid var(--text-dim);
-}
-
-.product-card::after {
-  bottom: 6px;
-  right: 6px;
-  border-bottom: 1px solid var(--text-dim);
-  border-right: 1px solid var(--text-dim);
-}
-
-.product-card:hover::before,
-.product-card:hover::after {
-  border-color: var(--accent);
-  opacity: 1;
-}
-
-/* ---------- ESTRUCTURA DE VISTA DE DETALLE (SPA MODULAR) ---------- */
-#productDetailView {
-  padding: 1rem 0;
-  animation: oxiumFadeIn 0.3s ease-out;
-}
-
-@keyframes oxiumFadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Bloque 1 */
-.detail-main-block {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 3.5rem;
-  margin-bottom: 4rem;
-}
-.detail-large-swatch {
-  height: 440px;
-  background: var(--panel);
-  border: 1px solid var(--line-strong);
-}
-.detail-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+.detail-main-block { display: grid; grid-template-columns: 1.1fr 1fr; gap: 3.5rem; margin-bottom: 4rem; }
+.detail-large-swatch { height: 440px; background: var(--panel); border: 1px solid var(--line-strong); }
+.detail-info { display: flex; flex-direction: column; justify-content: center; }
 .selector-row { margin: 0.8rem 0; }
 .size-options, .color-options { display: flex; gap: 0.6rem; margin-top: 0.4rem; }
-.size-options span {
-  border: 1px solid var(--line-strong);
-  padding: 0.4rem 0.9rem;
-  font-size: 0.75rem;
-  cursor: pointer;
-  font-family: var(--font-mono);
-  transition: all 0.2s ease;
-}
-.size-options span.active, .size-options span:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-.color-dot {
-  width: 26px; height: 26px;
-  border: 1px solid transparent;
-  cursor: pointer;
-  position: relative;
-}
+.size-options span { border: 1px solid var(--line-strong); padding: 0.4rem 0.9rem; font-size: 0.75rem; cursor: pointer; font-family: var(--font-mono); transition: all 0.2s ease; }
+.size-options span.active, .size-options span:hover { border-color: var(--accent); color: var(--accent); }
+.color-dot { width: 26px; height: 26px; border: 1px solid transparent; cursor: pointer; position: relative; }
 .color-dot.active { border-color: var(--accent); }
 
-/* Bloque 2: Lookbook */
+/* Lookbook */
 .look-block { margin-bottom: 4.5rem; }
-.look-frame {
-  position: relative;
-  background: #030303;
-  border: 1px solid var(--line);
-  padding: 3rem 2rem;
-  overflow: hidden;
-}
-.look-interactive-area {
-  position: relative;
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.look-center-render {
-  width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-}
-.look-tag {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  z-index: 5;
-}
-.look-tag-dot {
-  width: 10px; height: 10px;
-  background: var(--accent);
-  border-radius: 50%;
-  box-shadow: 0 0 10px var(--accent);
-}
-.look-tag-card {
-  background: rgba(0, 0, 0, 0.9);
-  border: 1px solid var(--line-strong);
-  padding: 0.5rem 0.9rem;
-  font-size: 0.7rem;
-  letter-spacing: 0.04em;
-}
+.look-frame { position: relative; background: #030303; border: 1px solid var(--line); padding: 3rem 2rem; overflow: hidden; }
+.look-interactive-area { position: relative; height: 400px; display: flex; align-items: center; justify-content: center; }
+.look-center-render { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+.look-tag { position: absolute; display: flex; align-items: center; gap: 0.8rem; z-index: 5; }
+.look-tag-dot { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); }
+.look-tag-card { background: rgba(0, 0, 0, 0.9); border: 1px solid var(--line-strong); padding: 0.5rem 0.9rem; font-size: 0.7rem; letter-spacing: 0.04em; }
 .look-tag-card p { margin: 0; font-weight: 500; color: var(--text); }
 .look-tag-card span { color: var(--accent); font-size: 0.65rem; }
 
-/* Bloque 3 */
-.suggestions-block {
-  border-top: 1px solid var(--line);
-  padding-top: 3.5rem;
-}
+.suggestions-block { border-top: 1px solid var(--line); padding-top: 3.5rem; }
 
 @media (max-width: 768px) {
   .detail-main-block { grid-template-columns: 1fr; gap: 2rem; }
@@ -650,12 +498,14 @@ a { color: inherit; text-decoration: none; }
 .promo-modal {
   width: min(440px, 92vw) !important;
   height: auto !important;
-  border: 1px solid var(--accent) !important; /* Enmarcado completo en verde neón */
+  border: 1px solid var(--accent) !important;
   box-shadow: 0 0 25px rgba(95, 217, 122, 0.15);
   animation: oxiumPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+@keyframes oxiumPop { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
 
-@keyframes oxiumPop {
-  from { opacity: 0; transform: scale(0.92); }
-  to { opacity: 1; transform: scale(1); }
-}
+/* ---------- Esquineros Decorativos ---------- */
+.product-card::before, .product-card::after { content: ""; position: absolute; width: 8px; height: 8px; opacity: 0.5; transition: border-color 0.3s ease, opacity 0.3s ease; }
+.product-card::before { top: 6px; left: 6px; border-top: 1px solid var(--text-dim); border-left: 1px solid var(--text-dim); }
+.product-card::after { bottom: 6px; right: 6px; border-bottom: 1px solid var(--text-dim); border-right: 1px solid var(--text-dim); }
+.product-card:hover::before, .product-card:hover::after { border-color: var(--accent); opacity: 1; }

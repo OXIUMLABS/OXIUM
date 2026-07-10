@@ -213,6 +213,8 @@ a { color: inherit; text-decoration: none; }
   border-top: 1px solid var(--line);
   border-left: 1px solid var(--line);
 }
+
+/* [CORREGIDO]: Agrupado en una sola clase única con transiciones tácticas */
 .product-card {
   border-right: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
@@ -220,7 +222,22 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), 
+              border-color 0.25s ease, 
+              box-shadow 0.25s ease;
 }
+
+/* [CORREGIDO]: Hover de tarjeta unificado */
+.product-card:hover {
+  transform: scale(1.02);
+  border-color: var(--accent) !important;
+  z-index: 10;
+  box-shadow: 0 0 20px rgba(95, 217, 122, 0.12); 
+}
+
+/* [CORREGIDO]: Contenedor del textil/SVG */
 .product-swatch {
   height: 160px;
   border: 1px solid var(--line);
@@ -229,9 +246,17 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
   overflow: hidden;
   filter: grayscale(1);
+  transition: filter 0.25s ease, border-color 0.25s ease;
 }
 .product-swatch svg { width: 50%; height: 50%; opacity: 0.8; }
 .product-swatch img { width: 100%; height: 100%; object-fit: cover; }
+
+/* El swatch se ilumina sutilmente en hover */
+.product-card:hover .product-swatch {
+  filter: grayscale(0.3) contrast(1.1);
+  border-color: var(--accent-dim);
+}
+
 .product-name { font-weight: 500; font-size: 0.9rem; margin: 0; text-transform: uppercase; letter-spacing: 0.02em; }
 .product-desc { color: var(--text-faint); font-size: 0.75rem; margin: 0; }
 .product-row {
@@ -253,55 +278,10 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: 0.05em;
   cursor: pointer;
   font-family: var(--font-mono);
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 .add-btn:hover { background: var(--accent); color: #000; border-color: var(--accent); }
 
-/* ---------- Tarjeta de Producto Base ---------- */
-.product-card {
-  border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  padding: 1.2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  
-  /* --- NUEVO: Preparar la animación suave --- */
-  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
-              border-color 0.3s ease, 
-              box-shadow 0.3s ease;
-  position: relative;
-  z-index: 1;
-}
-
-/* ---------- NUEVO: Efecto al pasar el cursor (Hover) ---------- */
-.product-card:hover {
-  transform: scale(1.02); /* Se agranda un 2% sutilmente sin romper la retícula */
-  border-color: var(--accent) !important; /* El borde cambia al verde neón #5fd97a */
-  z-index: 10; /* Se superpone ligeramente sobre las demás para que el borde se vea completo */
-  
-  /* Opcional: Un ligero resplandor verde técnico de fondo */
-  box-shadow: 0 0 15px rgba(95, 217, 122, 0.15); 
-}
-
-/* ---------- NUEVO: Animación para la imagen/swatch interna ---------- */
-.product-swatch {
-  height: 160px;
-  border: 1px solid var(--line);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  filter: grayscale(1);
-  
-  /* Transición para la imagen interna */
-  transition: filter 0.3s ease, border-color 0.3s ease;
-}
-
-/* Al pasar el cursor, la imagen recupera algo de vida o color (opcional) */
-.product-card:hover .product-swatch {
-  filter: grayscale(0.2) contrast(1.1);
-  border-color: var(--accent-dim);
-}
 /* ---------- Buttons ---------- */
 .btn {
   display: inline-flex;
@@ -517,18 +497,17 @@ a { color: inherit; text-decoration: none; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 
-/* Esquineros decorativos en las tarjetas */
+/* ---------- Esquineros Decorativos (Miras tácticas) ---------- */
 .product-card::before,
 .product-card::after {
   content: "";
   position: absolute;
   width: 8px;
   height: 8px;
-  opacity: 0.5;
-  transition: border-color 0.3s ease, opacity 0.3s ease;
+  opacity: 0.4;
+  transition: border-color 0.25s ease, opacity 0.25s ease;
 }
 
-/* Esquina superior izquierda */
 .product-card::before {
   top: 6px;
   left: 6px;
@@ -536,7 +515,6 @@ a { color: inherit; text-decoration: none; }
   border-left: 1px solid var(--text-dim);
 }
 
-/* Esquina inferior derecha */
 .product-card::after {
   bottom: 6px;
   right: 6px;
@@ -544,7 +522,6 @@ a { color: inherit; text-decoration: none; }
   border-right: 1px solid var(--text-dim);
 }
 
-/* Cuando pasas el cursor, los corchetes brillan en verde */
 .product-card:hover::before,
 .product-card:hover::after {
   border-color: var(--accent);

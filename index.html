@@ -6,49 +6,67 @@
 <title>OXIUM — Tienda oficial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Work+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <!-- BARRA TIPO VENTANA DE NAVEGADOR -->
+  <div class="chrome-bar">
+    <div class="chrome-dots"><span></span><span></span><span></span></div>
+    <div class="chrome-url">https://oxium.tienda</div>
+    <div class="chrome-spacer"></div>
+  </div>
+
   <!-- NAV -->
   <header class="nav">
-    <div class="nav-inner">
-      <a href="#" class="logo">OXIUM</a>
-      <nav class="nav-links">
-        <a href="#catalogo">Catálogo</a>
-        <a href="#club">Club Oxium</a>
-        <a href="#contacto">Contacto</a>
-      </nav>
-      <div class="nav-actions">
-        <button id="openAccountBtn" class="icon-btn" aria-label="Cuenta">
-          <span id="navUserLabel">Cuenta</span>
-        </button>
-        <button id="openCartBtn" class="icon-btn cart-btn" aria-label="Carrito">
-          Carrito <span id="cartCount" class="badge">0</span>
-        </button>
-      </div>
+    <div class="nav-col">
+      <p class="nav-label">Productos <span>/ shop</span></p>
+      <a href="#catalogo">Chaquetas</a>
+      <a href="#catalogo">Pantalones</a>
+      <a href="#catalogo">Playeras</a>
+    </div>
+    <div class="nav-col">
+      <p class="nav-label">Marca <span>/ brand</span></p>
+      <a href="#club">Club Oxium</a>
+      <a href="#contacto">Contacto</a>
+      <a href="#contacto">Envíos</a>
+    </div>
+    <div class="nav-col nav-col--wordmark">
+      <a href="#" class="wordmark">OXIUM</a>
+      <p class="wordmark-sub">unidad de producción · MX</p>
+    </div>
+    <div class="nav-col nav-col--actions">
+      <p class="nav-label">Cuenta <span>/ account</span></p>
+      <button id="openAccountBtn" class="link-btn"><span id="navUserLabel">Entrar</span></button>
+      <p class="nav-label">Carrito <span id="cartCount">[0]</span></p>
+      <button id="openCartBtn" class="link-btn">Ver carrito</button>
     </div>
   </header>
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-text">
-      <p class="eyebrow">Colección permanente</p>
-      <h1>La ropa no se desgasta.<br>Se oxida y se vuelve tuya.</h1>
-      <p class="hero-sub">Cada prenda Oxium está pensada para envejecer bien. Compra, acumula puntos y observa cómo tu cuenta cambia de metal crudo a titanio.</p>
-      <a href="#catalogo" class="btn btn-primary">Ver catálogo</a>
+    <span class="crosshair crosshair--tl">+</span>
+    <span class="crosshair crosshair--tr">+</span>
+    <span class="crosshair crosshair--bl">+</span>
+    <span class="crosshair crosshair--br">+</span>
+
+    <div class="hero-frame">
+      <p class="hero-tag">Colección permanente / SS-26</p>
+      <h1 class="hero-title">OXIUM</h1>
+      <p class="hero-sub">Construcción técnica. Corte funcional. Sin temporadas, sin decoración innecesaria.</p>
     </div>
-    <div class="hero-visual" aria-hidden="true">
-      <div class="patina-swatch"></div>
-    </div>
+
+    <div class="hero-tab">Productos / catalog</div>
   </section>
 
   <!-- CATALOGO -->
   <section id="catalogo" class="catalog">
     <div class="section-head">
-      <h2>Catálogo</h2>
-      <p>Piezas construidas para durar. Precios en MXN.</p>
+      <h2>Catálogo <span>/ 01</span></h2>
+      <p>Piezas construidas para durar — precios en MXN.</p>
     </div>
     <div id="productGrid" class="product-grid"></div>
   </section>
@@ -57,19 +75,34 @@
   <section id="club" class="club">
     <div class="club-inner">
       <div>
-        <p class="eyebrow">Membresía</p>
+        <p class="nav-label">Membresía <span>/ 02</span></p>
         <h2>Club Oxium</h2>
-        <p class="hero-sub">Suscríbete y suma 300 puntos cada mes automáticamente, incluso sin comprar. Acelera tu camino a Titanio.</p>
+        <p class="hero-sub">Suscríbete y suma puntos cada mes automáticamente, incluso sin comprar. Avanza más rápido en tu nivel de cuenta.</p>
       </div>
-      <button id="subscribeBtn" class="btn btn-outline">Unirme por $199 MXN/mes</button>
+      <button id="subscribeBtn" class="btn">Unirme — $199 MXN/mes</button>
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- FOOTER: FICHA TECNICA -->
   <footer id="contacto" class="footer">
-    <div class="footer-inner">
-      <span class="logo small">OXIUM</span>
-      <p>hola@oxium.mx — Tuxtla Gutiérrez, Chiapas</p>
+    <div class="footer-grid">
+      <div class="footer-barcode" aria-hidden="true"></div>
+      <div class="footer-block">
+        <p class="footer-label">Marca</p>
+        <p class="footer-value">OXIUM.TIENDA</p>
+      </div>
+      <div class="footer-block">
+        <p class="footer-label">Ubicación</p>
+        <p class="footer-value">TUXTLA GTZ. CHIS. MX</p>
+      </div>
+      <div class="footer-block">
+        <p class="footer-label">Contacto</p>
+        <p class="footer-value">HOLA@OXIUM.MX</p>
+      </div>
+      <div class="footer-block">
+        <p class="footer-label">Nota</p>
+        <p class="footer-value footer-fine">Sitio de demostración — pagos no procesados.</p>
+      </div>
     </div>
   </footer>
 
@@ -79,14 +112,16 @@
       <button class="close-btn" data-close="accountOverlay">&times;</button>
 
       <div id="authView">
-        <h3>Entrar / crear cuenta</h3>
+        <p class="panel-label">Cuenta / 03</p>
+        <h3>Entrar o crear cuenta</h3>
         <input id="authName" type="text" placeholder="Nombre" />
         <input id="authEmail" type="email" placeholder="Correo electrónico" />
-        <button id="authSubmit" class="btn btn-primary full">Entrar</button>
+        <button id="authSubmit" class="btn full">Entrar</button>
         <p class="fineprint">Tus datos y puntos se guardan solo en este navegador (localStorage).</p>
       </div>
 
       <div id="profileView" class="hidden">
+        <p class="panel-label">Cuenta / 03</p>
         <div class="profile-head">
           <div id="levelBadge" class="level-badge"></div>
           <div>
@@ -106,7 +141,7 @@
         </div>
         <p id="levelDesc" class="fineprint level-desc"></p>
 
-        <h4>Historial</h4>
+        <p class="panel-label">Historial</p>
         <ul id="historyList" class="history-list"></ul>
 
         <button id="logoutBtn" class="btn btn-outline full">Cerrar sesión</button>
@@ -118,13 +153,14 @@
   <div id="cartOverlay" class="overlay hidden">
     <div class="panel">
       <button class="close-btn" data-close="cartOverlay">&times;</button>
+      <p class="panel-label">Carrito / 04</p>
       <h3>Tu carrito</h3>
       <ul id="cartList" class="cart-list"></ul>
       <div class="cart-total-row">
         <span>Total</span>
         <span id="cartTotal">$0 MXN</span>
       </div>
-      <button id="checkoutBtn" class="btn btn-primary full">Finalizar compra</button>
+      <button id="checkoutBtn" class="btn full">Finalizar compra</button>
       <p class="fineprint">Compra simulada: no se procesan pagos reales.</p>
     </div>
   </div>

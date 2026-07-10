@@ -14,15 +14,15 @@ const PRODUCTS = [
   { id: "p6", name: "Chaleco Corrosión", desc: "Acolchado ligero", price: 1590, swatch: "#8a4a2a" },
 ];
 
-const JACKET_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="#0e0f0f" stroke-width="1.4"><path d="M8 2l4 2 4-2 4 4-2 3v13H4V9L2 6l6-4z"/></svg>`;
+const JACKET_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="#f2f2f0" stroke-width="1.2"><path d="M8 2l4 2 4-2 4 4-2 3v13H4V9L2 6l6-4z"/></svg>`;
 
-// ---------- Niveles (mismo concepto de oxidación) ----------
+// ---------- Niveles (escala técnica, sin tema de oxidación) ----------
 const LEVELS = [
-  { id: "crudo", name: "Metal crudo", threshold: 0, color: "#9ca3a1", desc: "Recién llegado. Aún sin marcar por el uso." },
-  { id: "aleacion", name: "Aleación", threshold: 100, color: "#7c93a3", desc: "Empieza a tomar forma con tus primeras compras." },
-  { id: "oxido", name: "Óxido", threshold: 300, color: "#b5651d", desc: "La superficie reacciona. Cliente frecuente." },
-  { id: "patina", name: "Pátina", threshold: 700, color: "#4c7a69", desc: "Una capa propia y única. Alta fidelidad a la marca." },
-  { id: "titanio", name: "Titanio", threshold: 1500, color: "#e8e6e1", desc: "Resistencia máxima. Acceso total a beneficios Oxium." },
+  { id: "base", name: "Base / 01", threshold: 0, color: "#555550", desc: "Cuenta recién registrada." },
+  { id: "field", name: "Field / 02", threshold: 100, color: "#7a7a74", desc: "Primeras compras registradas." },
+  { id: "tactical", name: "Tactical / 03", threshold: 300, color: "#a3a39c", desc: "Cliente frecuente. Acceso a lanzamientos anticipados." },
+  { id: "command", name: "Command / 04", threshold: 700, color: "#d4d4cd", desc: "Alta fidelidad. Beneficios prioritarios en envíos." },
+  { id: "prototype", name: "Prototype / 05", threshold: 1500, color: "#ffffff", desc: "Nivel máximo. Acceso total a beneficios Oxium." },
 ];
 
 function getLevelInfo(points) {
@@ -78,7 +78,7 @@ function renderProducts() {
     const card = document.createElement("div");
     card.className = "product-card";
     card.innerHTML = `
-      <div class="product-swatch" style="background:${p.swatch}22">${JACKET_SVG}</div>
+      <div class="product-swatch" style="background:${p.swatch}33">${JACKET_SVG}</div>
       <p class="product-name">${p.name}</p>
       <p class="product-desc">${p.desc}</p>
       <div class="product-row">

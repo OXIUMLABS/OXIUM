@@ -16,13 +16,13 @@ const PRODUCTS = [
 
 const JACKET_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="#f2f2f0" stroke-width="1.2"><path d="M8 2l4 2 4-2 4 4-2 3v13H4V9L2 6l6-4z"/></svg>`;
 
-// ---------- Niveles (escala técnica, sin tema de oxidación) ----------
+// ---------- Niveles (escala técnica, acentos en verde) ----------
 const LEVELS = [
-  { id: "base", name: "Base / 01", threshold: 0, color: "#555550", desc: "Cuenta recién registrada." },
-  { id: "field", name: "Field / 02", threshold: 100, color: "#7a7a74", desc: "Primeras compras registradas." },
-  { id: "tactical", name: "Tactical / 03", threshold: 300, color: "#a3a39c", desc: "Cliente frecuente. Acceso a lanzamientos anticipados." },
-  { id: "command", name: "Command / 04", threshold: 700, color: "#d4d4cd", desc: "Alta fidelidad. Beneficios prioritarios en envíos." },
-  { id: "prototype", name: "Prototype / 05", threshold: 1500, color: "#ffffff", desc: "Nivel máximo. Acceso total a beneficios Oxium." },
+  { id: "base", name: "Base / 01", threshold: 0, color: "#2f4a38", desc: "Cuenta recién registrada." },
+  { id: "field", name: "Field / 02", threshold: 100, color: "#3f6b4c", desc: "Primeras compras registradas." },
+  { id: "tactical", name: "Tactical / 03", threshold: 300, color: "#4c8a5c", desc: "Cliente frecuente. Acceso a lanzamientos anticipados." },
+  { id: "command", name: "Command / 04", threshold: 700, color: "#5fd97a", desc: "Alta fidelidad. Beneficios prioritarios en envíos." },
+  { id: "prototype", name: "Prototype / 05", threshold: 1500, color: "#9cff9c", desc: "Nivel máximo. Acceso total a beneficios Oxium." },
 ];
 
 function getLevelInfo(points) {

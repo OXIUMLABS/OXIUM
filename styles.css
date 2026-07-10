@@ -327,4 +327,218 @@ a { color: inherit; text-decoration: none; }
   flex-wrap: wrap;
 }
 .club-inner h2 { font-family: var(--font-display); font-size: 1.4rem; text-transform: uppercase; margin: 0.3rem 0; }
-.club-inner .hero-sub { margin-bottom: 0;
+.club-inner .hero-sub { margin-bottom: 0; }
+
+/* ---------- Footer: ficha técnica ---------- */
+.footer {
+  position: relative;
+  z-index: 2;
+  padding: 2rem 1.5rem;
+}
+.footer-grid {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr repeat(4, 1fr);
+  gap: 1.5rem;
+  align-items: center;
+}
+.footer-barcode {
+  height: 46px;
+  background: repeating-linear-gradient(
+    to right,
+    #fff 0px, #fff 2px,
+    transparent 2px, transparent 4px,
+    #fff 4px, #fff 5px,
+    transparent 5px, transparent 9px,
+    #fff 9px, #fff 12px,
+    transparent 12px, transparent 14px
+  );
+  opacity: 0.85;
+}
+.footer-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin: 0 0 0.2rem;
+}
+.footer-value { font-size: 0.8rem; margin: 0; }
+.footer-fine { color: var(--text-dim); font-size: 0.7rem; }
+
+/* ---------- Overlays / panels (REPARADOS) ---------- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 100; /* Se sitúa sobre todo lo demás */
+}
+.overlay.hidden { display: none; }
+
+.panel {
+  width: min(420px, 92vw);
+  height: 100%;
+  background: #000000;
+  border-left: 1px solid var(--line-strong);
+  padding: 2.5rem 1.5rem;
+  overflow-y: auto;
+  position: relative;
+}
+.panel-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin: 0 0 0.8rem;
+}
+.panel h3 { font-family: var(--font-display); font-size: 1.1rem; text-transform: uppercase; margin: 0 0 1rem; }
+.panel h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-faint); margin: 1.2rem 0 0.6rem; }
+
+.close-btn {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--text-dim);
+  width: 28px; height: 28px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.close-btn:hover { color: var(--text); border-color: var(--accent); }
+
+.panel input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  margin-bottom: 0.8rem;
+  border-radius: 0;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+.panel input::placeholder { color: var(--text-faint); }
+.panel input:focus { outline: none; border-color: var(--accent); }
+.fineprint { font-size: 0.7rem; color: var(--text-faint); margin-top: 0.5rem; }
+
+/* Modificador global de visibilidad */
+.hidden { display: none !important; }
+
+/* profile */
+.profile-head { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 1.5rem; }
+.level-badge {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border: 1px solid var(--line-strong);
+}
+.profile-head h3 { margin: 0; text-transform: none; font-size: 0.95rem; font-family: var(--font-mono); font-weight: 500; }
+
+.level-bar-wrap { margin-bottom: 0.4rem; }
+.level-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+.level-bar-track {
+  height: 6px;
+  background: #111;
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.level-bar-fill {
+  height: 100%;
+  width: 0%;
+  transition: width 0.6s ease, background 0.6s ease;
+}
+.level-desc { margin-bottom: 1.5rem; }
+
+.history-list, .cart-list { list-style: none; padding: 0; margin: 0 0 1rem; }
+.history-list li, .cart-list li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--text-dim);
+}
+.cart-list li { color: var(--text); align-items: center; }
+.cart-item-name { display: flex; flex-direction: column; }
+.cart-item-name small { color: var(--text-faint); }
+.remove-btn { background: none; border: 1px solid var(--line); color: var(--text-dim); cursor: pointer; font-size: 1rem; width: 24px; height: 24px; }
+.remove-btn:hover { color: var(--text); border-color: var(--line-strong); }
+
+.cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--line);
+  margin-bottom: 0.5rem;
+}
+
+/* toast */
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--text);
+  color: #000;
+  padding: 0.7rem 1.2rem;
+  font-size: 0.8rem;
+  z-index: 100;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.toast.hidden { display: none; }
+
+@media (max-width: 900px) {
+  .nav { grid-template-columns: 1fr 1fr; }
+  .nav-col--wordmark { grid-column: 1 / -1; order: -1; border-bottom: 1px solid var(--line); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---------- Esquineros decorativos en las tarjetas ---------- */
+.product-card::before,
+.product-card::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  opacity: 0.5;
+  transition: border-color 0.3s ease, opacity 0.3s ease;
+}
+
+/* Esquina superior izquierda */
+.product-card::before {
+  top: 6px;
+  left: 6px;
+  border-top: 1px solid var(--text-dim);
+  border-left: 1px solid var(--text-dim);
+}
+
+/* Esquina inferior derecha */
+.product-card::after {
+  bottom: 6px;
+  right: 6px;
+  border-bottom: 1px solid var(--text-dim);
+  border-right: 1px solid var(--text-dim);
+}
+
+/* Cuando pasas el cursor, los corchetes brillan en verde */
+.product-card:hover::before,
+.product-card:hover::after {
+  border-color: var(--accent);
+  opacity: 1;
+}

@@ -7,18 +7,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <!-- Agregamos ?v=103 para obligar a romper la caché de tu Mac de golpe -->
+  <link rel="stylesheet" href="styles.css?v=103" />
 </head>
 <body>
 
   <div class="grid-overlay" aria-hidden="true"></div>
 
+  <!-- BARRA TIPO VENTANA DE NAVEGADOR -->
   <div class="chrome-bar">
     <div class="chrome-dots"><span></span><span></span><span></span></div>
     <div class="chrome-url">https://oxiumlabs.net</div>
     <div class="chrome-spacer"></div>
   </div>
 
+  <!-- NAV -->
   <header class="nav">
     <div class="nav-col">
       <p class="nav-label">Productos <span>/ shop</span></p>
@@ -44,6 +47,7 @@
     </div>
   </header>
 
+  <!-- HERO -->
   <section class="hero">
     <span class="crosshair crosshair--tl">+</span>
     <span class="crosshair crosshair--tr">+</span>
@@ -59,8 +63,10 @@
     <div class="hero-tab">Productos / catalog</div>
   </section>
 
+  <!-- CATALOGO Y VISTA DE DETALLE INTERACTIVA -->
   <section id="catalogo" class="catalog">
     
+    <!-- CONTENEDOR FRONTAL DEL CATÁLOGO -->
     <div id="catalogFront">
       <div class="section-head">
         <h2>Catálogo <span>/ 01</span></h2>
@@ -69,9 +75,11 @@
       <div id="productGrid" class="product-grid"></div>
     </div>
 
+    <!-- CONTENEDOR DE LA VISTA DE DETALLE DE TRES BLOQUES -->
     <div id="productDetailView" class="hidden">
       <button id="backToCatalog" class="link-btn" style="margin-bottom: 2.5rem; color: var(--accent);">← VOLVER_AL_CATÁLOGO</button>
       
+      <!-- BLOQUE 1: Galería, especificaciones y selectores -->
       <div class="detail-main-block">
         <div class="detail-gallery">
           <div id="detailSwatch" class="product-swatch detail-large-swatch"></div>
@@ -102,6 +110,7 @@
         </div>
       </div>
 
+      <!-- BLOQUE 2: Complete the Look Interactivo -->
       <div class="look-block">
         <div class="look-frame">
           <div class="crosshair crosshair--tl">+</div><div class="crosshair crosshair--tr">+</div>
@@ -118,6 +127,7 @@
         </div>
       </div>
 
+      <!-- BLOQUE 3: Productos Relacionados -->
       <div class="suggestions-block">
         <p class="nav-label" style="text-align: center; margin-bottom: 2rem;">Operaciones sugeridas <span>/ you may also like</span></p>
         <div id="suggestionsGrid" class="product-grid" style="border: 1px solid var(--line);"></div>
@@ -126,6 +136,7 @@
 
   </section>
 
+  <!-- CLUB / SUSCRIPCION -->
   <section id="club" class="club">
     <div class="club-inner">
       <div>
@@ -137,6 +148,7 @@
     </div>
   </section>
 
+  <!-- FOOTER: FICHA TECNICA -->
   <footer id="contacto" class="footer">
     <div class="footer-grid">
       <div class="footer-barcode" aria-hidden="true"></div>
@@ -159,6 +171,7 @@
     </div>
   </footer>
 
+  <!-- ACCOUNT PANEL -->
   <div id="accountOverlay" class="overlay hidden">
     <div class="panel">
       <button class="close-btn" data-close="accountOverlay">&times;</button>
@@ -201,6 +214,7 @@
     </div>
   </div>
 
+  <!-- CART DRAWER -->
   <div id="cartOverlay" class="overlay hidden">
     <div class="panel">
       <button class="close-btn" data-close="cartOverlay">&times;</button>
@@ -216,7 +230,32 @@
     </div>
   </div>
 
+  <!-- TOAST -->
   <div id="toast" class="toast hidden"></div>
+
+  <!-- ANUNCIO POP-UP DE ENTRADA (MEMBRESÍA) -->
+  <div id="promoOverlay" class="overlay hidden" style="justify-content: center; align-items: center; background: rgba(0,0,0,0.85);">
+    <div class="panel promo-modal">
+      <button class="close-btn" id="closePromoBtn">&times;</button>
+      
+      <p class="panel-label">// BENEFICIOS EXCLUSIVOS</p>
+      <h3 class="wordmark" style="font-size: 1.2rem; margin-bottom: 1rem;">RED PROTOCOL: ACTIVADA</h3>
+      
+      <div class="product-swatch" style="height: 140px; margin-bottom: 1.5rem; background: rgba(95, 217, 122, 0.05); border-color: var(--line-strong);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+
+      <p class="hero-sub" style="font-size: 0.8rem; text-align: left; margin-bottom: 1.5rem; color: var(--text);">
+        Enlaza tu terminal al <span style="color: var(--accent);">Club Oxium</span> para recibir transmisiones encriptadas, acumular puntos de rango con multiplicador <span style="color: var(--accent);">x1.5</span> y asegurar acceso prioritario a prototipos.
+      </p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <button id="promoLoginBtn" class="btn">INGRESAR</button>
+        <button id="promoRegBtn" class="btn btn-outline">UNIRME</button>
+      </div>
+      <p class="fineprint" style="text-align: center; margin-top: 1rem;">[ ACCESO RESTRINGIDO A OPERADORES ]</p>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>

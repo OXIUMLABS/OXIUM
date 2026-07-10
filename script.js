@@ -86,7 +86,6 @@ function renderProducts() {
       </div>
     `;
     
-    // Clic en la tarjeta abre la ficha técnica
     card.addEventListener("click", (e) => {
       if (!e.target.classList.contains('add-btn')) openProductDetail(p.id);
     });
@@ -101,11 +100,9 @@ function openProductDetail(productId) {
   const p = PRODUCTS.find(item => item.id === productId);
   if (!p) return;
 
-  // Intercambiar visibilidad de bloques
   document.getElementById("catalogFront").classList.add("hidden");
   document.getElementById("productDetailView").classList.remove("hidden");
 
-  // Inyectar Bloque 1 (Info Central)
   document.getElementById("detailName").textContent = p.name.toUpperCase();
   document.getElementById("detailPrice").textContent = `$${p.price.toLocaleString("es-MX")} MXN`;
   document.getElementById("detailDesc").textContent = p.desc;
@@ -116,7 +113,7 @@ function openProductDetail(productId) {
 
   document.getElementById("detailAddBtn").onclick = () => addToCart(p.id);
 
-  // Inyectar Bloque 2: Complete the Look (Nodos flotantes)
+  // Bloque 2: Complete the Look
   const tagsContainer = document.getElementById("lookTagsContainer");
   tagsContainer.innerHTML = "";
   
@@ -135,7 +132,7 @@ function openProductDetail(productId) {
     tagsContainer.appendChild(tag);
   });
 
-  // Inyectar Bloque 3: Sugerencias Relacionadas con mismos iconos de mira
+  // Bloque 3: Sugerencias Relacionadas
   const suggestionsGrid = document.getElementById("suggestionsGrid");
   suggestionsGrid.innerHTML = "";
   const filtered = PRODUCTS.filter(item => item.id !== p.id).slice(0, 3);
@@ -153,15 +150,14 @@ function openProductDetail(productId) {
       </div>
     `;
     
-    // Navegación instantánea interna entre productos recomendados
     const triggers = [card, card.querySelector(".add-btn")];
+    suggestionsGrid.appendChild(card);
+
     triggers.forEach(t => t.addEventListener("click", (e) => {
       if (t === card && e.target.classList.contains('add-btn')) return;
       openProductDetail(item.id);
       window.scrollTo({ top: document.getElementById("catalogo").offsetTop, behavior: 'smooth' });
     }));
-
-    suggestionsGrid.appendChild(card);
   });
 }
 
@@ -329,4 +325,30 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("logoutBtn").addEventListener("click", logout);
   document.getElementById("checkoutBtn").addEventListener("click", checkout);
   document.getElementById("subscribeBtn").addEventListener("click", subscribe);
+
+  // ---------- LÓGICA ANUNCIO POP-UP DE ENTRADA ----------
+  const promoOverlay = document.getElementById("promoOverlay");
+  
+  // Sale a los 2 segundos si el operador no está logueado
+  if (!user) {
+    setTimeout(() => {
+      promoOverlay.classList.remove("hidden");
+    }, 2000);
+  }
+
+  document.getElementById("closePromoBtn").addEventListener("click", () => {
+    promoOverlay.classList.add("hidden");
+  });
+
+  document.getElementById("promoLoginBtn").addEventListener("click", () => {
+    promoOverlay.classList.add("hidden");
+    openOverlay("accountOverlay");
+    document.getElementById("authName").focus(); 
+  });
+
+  document.getElementById("promoRegBtn").addEventListener("click", () => {
+    promoOverlay.classList.add("hidden");
+    openOverlay("accountOverlay");
+    document.getElementById("authName").focus();
+  });
 });

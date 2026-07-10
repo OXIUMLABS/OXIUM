@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OXIUM — Tienda oficial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Work+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="#" class="logo">OXIUM</a>
+      <nav class="nav-links">
+        <a href="#catalogo">Catálogo</a>
+        <a href="#club">Club Oxium</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <div class="nav-actions">
+        <button id="openAccountBtn" class="icon-btn" aria-label="Cuenta">
+          <span id="navUserLabel">Cuenta</span>
+        </button>
+        <button id="openCartBtn" class="icon-btn cart-btn" aria-label="Carrito">
+          Carrito <span id="cartCount" class="badge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">Colección permanente</p>
+      <h1>La ropa no se desgasta.<br>Se oxida y se vuelve tuya.</h1>
+      <p class="hero-sub">Cada prenda Oxium está pensada para envejecer bien. Compra, acumula puntos y observa cómo tu cuenta cambia de metal crudo a titanio.</p>
+      <a href="#catalogo" class="btn btn-primary">Ver catálogo</a>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="patina-swatch"></div>
+    </div>
+  </section>
+
+  <!-- CATALOGO -->
+  <section id="catalogo" class="catalog">
+    <div class="section-head">
+      <h2>Catálogo</h2>
+      <p>Piezas construidas para durar. Precios en MXN.</p>
+    </div>
+    <div id="productGrid" class="product-grid"></div>
+  </section>
+
+  <!-- CLUB / SUSCRIPCION -->
+  <section id="club" class="club">
+    <div class="club-inner">
+      <div>
+        <p class="eyebrow">Membresía</p>
+        <h2>Club Oxium</h2>
+        <p class="hero-sub">Suscríbete y suma 300 puntos cada mes automáticamente, incluso sin comprar. Acelera tu camino a Titanio.</p>
+      </div>
+      <button id="subscribeBtn" class="btn btn-outline">Unirme por $199 MXN/mes</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="contacto" class="footer">
+    <div class="footer-inner">
+      <span class="logo small">OXIUM</span>
+      <p>hola@oxium.mx — Tuxtla Gutiérrez, Chiapas</p>
+    </div>
+  </footer>
+
+  <!-- ACCOUNT PANEL -->
+  <div id="accountOverlay" class="overlay hidden">
+    <div class="panel">
+      <button class="close-btn" data-close="accountOverlay">&times;</button>
+
+      <div id="authView">
+        <h3>Entrar / crear cuenta</h3>
+        <input id="authName" type="text" placeholder="Nombre" />
+        <input id="authEmail" type="email" placeholder="Correo electrónico" />
+        <button id="authSubmit" class="btn btn-primary full">Entrar</button>
+        <p class="fineprint">Tus datos y puntos se guardan solo en este navegador (localStorage).</p>
+      </div>
+
+      <div id="profileView" class="hidden">
+        <div class="profile-head">
+          <div id="levelBadge" class="level-badge"></div>
+          <div>
+            <h3 id="profileName"></h3>
+            <p id="profileEmail" class="fineprint"></p>
+          </div>
+        </div>
+
+        <div class="level-bar-wrap">
+          <div class="level-bar-labels">
+            <span id="levelName"></span>
+            <span id="levelNext"></span>
+          </div>
+          <div class="level-bar-track">
+            <div id="levelBarFill" class="level-bar-fill"></div>
+          </div>
+        </div>
+        <p id="levelDesc" class="fineprint level-desc"></p>
+
+        <h4>Historial</h4>
+        <ul id="historyList" class="history-list"></ul>
+
+        <button id="logoutBtn" class="btn btn-outline full">Cerrar sesión</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CART DRAWER -->
+  <div id="cartOverlay" class="overlay hidden">
+    <div class="panel">
+      <button class="close-btn" data-close="cartOverlay">&times;</button>
+      <h3>Tu carrito</h3>
+      <ul id="cartList" class="cart-list"></ul>
+      <div class="cart-total-row">
+        <span>Total</span>
+        <span id="cartTotal">$0 MXN</span>
+      </div>
+      <button id="checkoutBtn" class="btn btn-primary full">Finalizar compra</button>
+      <p class="fineprint">Compra simulada: no se procesan pagos reales.</p>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

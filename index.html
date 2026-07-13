@@ -7,8 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <!-- Forzamos la actualización de caché en tu Mac cambiando la versión a ?v=105 -->
-  <link rel="stylesheet" href="styles.css?v=105" />
+  <!-- Forzamos la actualización de caché en tu Mac cambiando la versión a ?v=106 -->
+  <link rel="stylesheet" href="styles.css?v=106" />
 </head>
 <body>
 
@@ -46,27 +46,31 @@
     </div>
   </header>
 
- <!-- HERO INTERACTIVO ASIMÉTRICO -->
+  <!-- HERO ESTILO TECHWEAR INTERACTIVO -->
   <section class="hero">
-    <!-- Etiquetas Técnicas de Esquina de la Referencia -->
-    <div class="hero-corner-label hero-corner--tl">LAT 40.4168 / MEX -3.7038</div>
-    <div class="hero-corner-label hero-corner--tr">REC <span class="rec-dot"></span></div>
+    <div class="hero-data-bar">
+      <div class="hero-coordinates">LAT 40.4168 / MEX -3.7038</div>
+      <div class="hero-rec">REC <span class="rec-dot"></span></div>
+    </div>
 
     <div class="hero-frame-left">
-      <p class="hero-tag">/ COLLECTION_00 — SECTOR 01</p>
+      <p class="hero-tag-code">/ COLLECTION_00 — SECTOR 01</p>
       <h1 class="hero-title-giant">OXIUM</h1>
       <p class="hero-sub-left">Cold. Functional. Precise.</p>
       
-      <div class="hero-actions-row">
-        <a href="#catalogo" class="btn btn-hero-accent">VER CATÁLOGO →</a>
-        <span class="hero-availability-label">[0] UNIDADES DISPONIBLES</span>
+      <div class="hero-action-row">
+        <a href="#catalogo" class="btn-neon-block">VER CATÁLOGO →</a>
+        <span class="hero-stock-counter">[6] UNIDADES DISPONIBLES</span>
       </div>
     </div>
+
+    <div class="hero-tab">Productos / catalog</div>
   </section>
 
   <!-- CATALOGO Y VISTA DE DETALLE INTERACTIVA -->
   <section id="catalogo" class="catalog">
     
+    <!-- CONTENEDOR FRONTAL DEL CATÁLOGO -->
     <div id="catalogFront">
       <div class="section-head">
         <h2>Catálogo <span>/ 01</span></h2>
@@ -75,9 +79,11 @@
       <div id="productGrid" class="product-grid"></div>
     </div>
 
+    <!-- CONTENEDOR DE LA VISTA DE DETALLE DE TRES BLOQUES -->
     <div id="productDetailView" class="hidden">
       <button id="backToCatalog" class="link-btn" style="margin-bottom: 2.5rem; color: var(--accent);">← VOLVER_AL_CATÁLOGO</button>
       
+      <!-- BLOQUE 1: Galería, especificaciones y selectores -->
       <div class="detail-main-block">
         <div class="detail-gallery">
           <div id="detailSwatch" class="product-swatch detail-large-swatch"></div>
@@ -108,6 +114,7 @@
         </div>
       </div>
 
+      <!-- BLOQUE 2: Complete the Look Interactivo -->
       <div class="look-block">
         <div class="look-frame">
           <div class="crosshair crosshair--tl">+</div><div class="crosshair crosshair--tr">+</div>
@@ -124,6 +131,7 @@
         </div>
       </div>
 
+      <!-- BLOQUE 3: Productos Relacionados -->
       <div class="suggestions-block">
         <p class="nav-label" style="text-align: center; margin-bottom: 2rem;">Operaciones sugeridas <span>/ you may also like</span></p>
         <div id="suggestionsGrid" class="product-grid" style="border: 1px solid var(--line);"></div>
@@ -171,6 +179,7 @@
     <div class="panel">
       <button class="close-btn" data-close="accountOverlay">&times;</button>
 
+      <!-- VISTA 1: Autenticación Avanzada -->
       <div id="authView">
         <p class="panel-label">Acceso / 03</p>
         <h3 id="authTitle">Establecer terminal</h3>
@@ -188,6 +197,7 @@
         </p>
       </div>
 
+      <!-- VISTA 2: Mi Perfil Avanzado (Configuraciones de Cuenta) -->
       <div id="profileView" class="hidden">
         <p class="panel-label">Terminal / Activa</p>
         <div class="profile-head">

@@ -130,135 +130,63 @@ a { color: inherit; text-decoration: none; }
   padding: 0.2rem 0.5rem; display: inline-flex; align-items: center; justify-content: center; min-width: 20px;
 }
 
-/* ---------- Hero (Estilo Custom Asimétrico) ---------- */
+/* ---------- Hero (Layout Izquierdo y Tipografía 3D de Referencia) ---------- */
 .hero {
   position: relative;
   z-index: 2;
-  min-height: 80vh; /* Un poco más alto para dar impacto visual */
+  min-height: 75vh;
   display: flex;
-  align-items: center;
-  justify-content: flex-start; /* Alineado a la izquierda */
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
   padding: 4rem 4rem;
   border-bottom: 1px solid var(--line);
   overflow: hidden;
 }
-
-/* Capa de fondo usando tu imagen real de la carpeta images */
 .hero::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 1;
-  background-image: 
-    linear-gradient(90deg, rgba(0,0,0,0.95) 25%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0.9) 100%),
+  background:
+    linear-gradient(90deg, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.85)),
     url('images/renderprueba.png');
   background-size: cover;
   background-position: center;
-  filter: grayscale(0.8) contrast(1.2);
+  filter: grayscale(0.7) contrast(1.15);
 }
 
-/* Bloque contenedor de contenido alineado a la izquierda */
-.hero-frame-left {
-  position: relative;
-  z-index: 2;
-  text-align: left;
-  max-width: 700px;
-  animation: oxiumFadeIn 0.5s ease-out;
+.hero-data-bar {
+  position: absolute; top: 1.5rem; left: 2rem; right: 2rem;
+  display: flex; justify-content: space-between; z-index: 3;
+  font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em;
 }
+.hero-coordinates { color: var(--accent); }
+.hero-rec { color: var(--text); display: flex; align-items: center; gap: 0.4rem; }
+.rec-dot { width: 7px; height: 7px; background: #ff3333; border-radius: 50%; display: inline-block; animation: pulseCursor 0.6s infinite alternate; }
 
-.hero-tag {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--accent);
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-}
+.hero-frame-left { position: relative; z-index: 2; text-align: left; max-width: 800px; padding: 2rem 0; }
+.hero-tag-code { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 0.5rem; }
 
-/* Título Gigante con Sombra Sólida Ciberpunk de la Foto */
 .hero-title-giant {
-  font-family: var(--font-display);
-  font-size: clamp(4.5rem, 12vw, 8.5rem);
-  line-height: 0.9;
-  margin: 0 0 1.5rem;
-  letter-spacing: -0.02em;
-  color: var(--text);
-  text-shadow: 4px 4px 0px var(--accent-dim);
+  font-family: var(--font-display); font-size: clamp(4rem, 12vw, 8.5rem); line-height: 0.9; margin: 0 0 1.5rem 0; letter-spacing: -0.02em; color: var(--text);
+  text-shadow: 4px 4px 0px #0b1a10, 8px 8px 0px rgba(95, 217, 122, 0.25);
 }
+.hero-sub-left { color: var(--accent); font-size: 1rem; letter-spacing: 0.05em; margin-bottom: 2.5rem; font-weight: 500; }
 
-.hero-sub-left {
-  color: var(--accent);
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin: 0 0 2.5rem 0;
-  letter-spacing: 0.05em;
+.hero-action-row { display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
+.btn-neon-block {
+  display: inline-flex; align-items: center; justify-content: center; padding: 0.8rem 2rem;
+  background: var(--accent); color: #000000; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em; border: 1px solid var(--accent); transition: all 0.2s ease; cursor: pointer;
 }
+.btn-neon-block:hover { background: transparent; color: var(--accent); box-shadow: 0 0 15px rgba(95, 217, 122, 0.2); }
+.hero-stock-counter { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; }
 
-/* Fila de acción */
-.hero-actions-row {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-}
-
-/* Botón Verde Neón Sólido de tu referencia */
-.btn-hero-accent {
-  background: var(--accent) !important;
-  color: #000000 !important;
-  font-weight: 700;
-  border: 1px solid var(--accent) !important;
-  padding: 0.9rem 2rem;
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
-  transition: all 0.25s ease !important;
-}
-.btn-hero-accent:hover {
-  background: transparent !important;
-  color: var(--accent) !important;
-  box-shadow: 0 0 15px rgba(95, 217, 122, 0.3);
-}
-
-.hero-availability-label {
-  font-size: 0.75rem;
-  color: var(--text-dim);
-  letter-spacing: 0.1em;
-  font-family: var(--font-mono);
-}
-
-/* Etiquetas técnicas de esquinas superiores */
-.hero-corner-label {
-  position: absolute;
-  z-index: 3;
-  font-size: 0.7rem;
-  font-family: var(--font-mono);
-  letter-spacing: 0.08em;
-  color: var(--text-faint);
-}
-.hero-corner--tl { top: 1.5rem; left: 2rem; }
-.hero-corner--tr { 
-  top: 1.5rem; 
-  right: 2rem; 
-  color: var(--text-dim);
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.rec-dot {
-  width: 6px;
-  height: 6px;
-  background: #ff5555;
-  border-radius: 50%;
-  display: inline-block;
-  box-shadow: 0 0 6px #ff5555;
-  animation: pulseCursor 0.6s infinite alternate;
-}
-
-/* Responsivo para celulares */
-@media (max-width: 768px) {
-  .hero { padding: 4rem 1.5rem; min-height: 65vh; }
-  .hero-actions-row { flex-direction: column; align-items: flex-start; gap: 1rem; }
-  .hero-corner-label { display: none; }
+.hero-tab {
+  position: absolute; bottom: 1.4rem; left: 50%; transform: translateX(-50%);
+  border: 1px solid var(--line-strong); background: #000; padding: 0.5rem 1.4rem;
+  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-dim); z-index: 3;
 }
 
 /* ---------- Catalog ---------- */
@@ -274,7 +202,7 @@ a { color: inherit; text-decoration: none; }
   border-top: 1px solid var(--line); border-left: 1px solid var(--line);
 }
 
-/* ---------- Tarjeta de Producto (Estructura Base) ---------- */
+/* ---------- Tarjeta de Producto (Estructura Base con Outline Completo) ---------- */
 .product-card {
   border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
   padding: 1.2rem; display: flex; flex-direction: column; gap: 0.6rem; position: relative; z-index: 1;

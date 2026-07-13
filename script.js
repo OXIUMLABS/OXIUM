@@ -23,7 +23,6 @@ const CATEGORY_META = {
 
 const JACKET_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="#f2f2f0" stroke-width="1.2"><path d="M8 2l4 2 4-2 4 4-2 3v13H4V9L2 6l6-4z"/></svg>`;
 
-// ---------- Gestión de Sesión y Rango ----------
 const USERS_DATABASE_KEY = "oxium_global_users"; const SESSION_KEY = "oxium_active_session"; const CART_KEY = "oxium_cart";
 function getGlobalUsers() { try { return JSON.parse(localStorage.getItem(USERS_DATABASE_KEY)) || []; } catch { return []; } }
 function saveGlobalUsers(users) { localStorage.setItem(USERS_DATABASE_KEY, JSON.stringify(users)); }
@@ -31,7 +30,14 @@ let user = JSON.parse(localStorage.getItem(SESSION_KEY)) || null;
 let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
 let isLoginMode = false;
 
-// ... (Conserva getLevelInfo, pointsFromAmount, showToast sin modificaciones) ...
+const LEVELS = [
+  { id: "base", name: "Base / 01", threshold: 0, color: "#2f4a38", desc: "Cuenta recién registrada." },
+  { id: "field", name: "Field / 02", threshold: 100, color: "#3f6b4c", desc: "Primeras compras registradas." },
+  { id: "tactical", name: "Tactical / 03", threshold: 300, color: "#4c8a5c", desc: "Cliente frecuente. Acceso a lanzamientos anticipados." },
+  { id: "command", name: "Command / 04", threshold: 700, color: "#5fd97a", desc: "Alta fidelidad. Beneficios prioritarios en envíos." },
+  { id: "prototype", name: "Prototype / 05", threshold: 1500, color: "#9cff9c", desc: "Nivel máximo. Acceso total a beneficios Oxium." },
+];
+
 function getLevelInfo(points) {
   let current = LEVELS[0], next = LEVELS[1] || null;
   for (const lvl of LEVELS) { if (points >= lvl.threshold) { current = lvl; next = LEVELS[LEVELS.indexOf(lvl) + 1] || null; } }
@@ -41,25 +47,21 @@ function getLevelInfo(points) {
 function pointsFromAmount(amount) { return Math.round(amount / 10); }
 function showToast(msg) { const el = document.getElementById("toast"); el.textContent = msg.toUpperCase(); el.classList.remove("hidden"); setTimeout(() => el.classList.add("hidden"), 2200); }
 
-// ---------- Render Automatizado Inteligente por URL ----------
 function resolveAndRenderCatalog() {
   const params = new URLSearchParams(window.location.search);
   const targetCategory = params.get("cat");
   const grid = document.getElementById("productGrid");
   if (!grid) return;
 
-  // Si estamos en la página de categoría independiente
   if (targetCategory && CATEGORY_META[targetCategory]) {
     document.getElementById("categoryTitle").innerHTML = `${CATEGORY_META[targetCategory].title} <span>/ INDEX</span>`;
     document.getElementById("categoryDescription").textContent = CATEGORY_META[targetCategory].desc;
     if(document.getElementById("categoryTerminalPath")) {
       document.getElementById("categoryTerminalPath").textContent = `HTTPS://OXIUM.LABS / CATEGORY / ${targetCategory.toUpperCase()}`;
     }
-    
     const filtered = PRODUCTS.filter(p => p.category === targetCategory);
     renderGrid(filtered);
   } else {
-    // Si estamos en el home, muestra destacados (primeros 4)
     renderGrid(PRODUCTS.slice(0, 4));
   }
 }
@@ -109,7 +111,6 @@ function openProductDetail(productId) {
   });
 }
 
-// ---------- Carrito ----------
 function addToCart(productId) {
   const existing = cart.find((i) => i.id === productId); if (existing) existing.qty += 1; else cart.push({ id: productId, qty: 1 });
   localStorage.setItem(CART_KEY, JSON.stringify(cart)); renderCart(); showToast("Agregado al carrito");
@@ -124,9 +125,7 @@ function renderCart() {
     const li = document.createElement("li"); li.innerHTML = `<div class="cart-item-name"><span>${p.name}</span><small>x${item.qty} — $${(p.price * item.qty).toLocaleString("es-MX")} MXN</small></div><button class="remove-btn" data-id="${item.id}">&times;</button>`;
     list.appendChild(li);
   });
-  if(list.querySelectorAll(".remove-btn").length > 0) {
-    list.querySelectorAll(".remove-btn").forEach(btn => btn.addEventListener("click", () => removeFromCart(btn.dataset.id)));
-  }
+  if(list.querySelectorAll(".remove-btn").length > 0) { list.querySelectorAll(".remove-btn").forEach(btn => btn.addEventListener("click", () => removeFromCart(btn.dataset.id))); }
   document.getElementById("cartTotal").textContent = `$${cartTotal().toLocaleString("es-MX")} MXN`;
   countEl.textContent = totalQty;
 }
@@ -139,7 +138,6 @@ function checkout() {
   saveActiveSession(user); cart = []; localStorage.setItem(CART_KEY, JSON.stringify(cart)); renderCart(); renderProfile(); showToast(`Procesado. +${earned} PTS`); closeOverlay("cartOverlay");
 }
 
-// ---------- Autenticación ----------
 function toggleAuthMode() {
   isLoginMode = !isLoginMode;
   document.getElementById("authTitle").textContent = isLoginMode ? "Acceder a Terminal" : "Establecer terminal";
@@ -181,9 +179,7 @@ function closeOverlay(id) { document.getElementById(id).classList.add("hidden");
 // ---------- Init ----------
 document.addEventListener("DOMContentLoaded", () => {
   resolveAndRenderCatalog(); renderCart(); if (user) renderProfile();
-  if(document.querySelector(".hero-stock-counter")) {
-    document.querySelector(".hero-stock-counter").textContent = `[${PRODUCTS.length}] UNIDADES DISPONIBLES`;
-  }
+  if(document.querySelector(".hero-stock-counter")) { document.querySelector(".hero-stock-counter").textContent = `[${PRODUCTS.length}] UNIDADES DISPONIBLES`; }
   document.getElementById("openAccountBtn").addEventListener("click", () => openOverlay("accountOverlay"));
   document.getElementById("openCartBtn").addEventListener("click", () => openOverlay("cartOverlay"));
   document.querySelectorAll("[data-close]").forEach((btn) => btn.addEventListener("click", () => closeOverlay(btn.dataset.close)));

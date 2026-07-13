@@ -7,42 +7,42 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=104" />
+  <!-- Forzamos la actualización de caché en tu Mac cambiando la versión a ?v=105 -->
+  <link rel="stylesheet" href="styles.css?v=105" />
 </head>
 <body>
 
   <div class="grid-overlay" aria-hidden="true"></div>
 
-  <!-- BARRA TIPO VENTANA DE NAVEGADOR -->
+  <!-- BARRA DE ESTADO SUPERIOR (ESTILO TERMINAL TÁCTICA) -->
   <div class="chrome-bar">
-    <div class="chrome-dots"><span></span><span></span><span></span></div>
-    <div class="chrome-url">https://oxiumlabs.net</div>
+    <div class="chrome-url">HTTPS://OXIUM.LABS</div>
     <div class="chrome-spacer"></div>
+    <div class="system-status">
+      <span class="status-dot"></span> SYSTEM ONLINE
+    </div>
   </div>
 
-  <!-- NAV -->
+  <!-- NAVEGACIÓN PRINCIPAL (HEADER MINIMALISTA DE REFERENCIA) -->
   <header class="nav">
-    <div class="nav-col">
-      <p class="nav-label">Productos <span>/ shop</span></p>
-      <a href="#catalogo">Chaquetas</a>
-      <a href="#catalogo">Pantalones</a>
-      <a href="#catalogo">Playeras</a>
+    <div class="nav-brand-area">
+      <a href="#" class="wordmark">OXIUM <span class="brand-cursor">_</span></a>
     </div>
-    <div class="nav-col">
-      <p class="nav-label">Marca <span>/ brand</span></p>
-      <a href="#club">Oxium Corp</a>
-      <a href="#contacto">Contacto</a>
-      <a href="#contacto">Envíos</a>
+
+    <div class="nav-links-center">
+      <a href="#catalogo" class="active">/CATÁLOGO</a>
+      <a href="#club">/COLECCIÓN</a>
+      <button id="openAccountBtn" class="nav-terminal-link">/SISTEMA (<span id="navUserLabel">ENTRAR</span>)</button>
     </div>
-    <div class="nav-col nav-col--wordmark">
-      <a href="#" class="wordmark">OXIUM</a>
-      <p class="wordmark-sub">Sector 001 · MX</p>
-    </div>
-    <div class="nav-col nav-col--actions">
-      <p class="nav-label">Cuenta <span>/ account</span></p>
-      <button id="openAccountBtn" class="link-btn"><span id="navUserLabel">Entrar</span></button>
-      <p class="nav-label">Carrito <span id="cartCount">[0]</span></p>
-      <button id="openCartBtn" class="link-btn">Ver carrito</button>
+
+    <div class="nav-cart-area">
+      <button id="openCartBtn" class="cart-block-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="cart-icon">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6zM3 6h18M16 10a4 4 0 0 1-8 0" />
+        </svg>
+        <span class="cart-text">CART</span>
+        <span id="cartCount" class="cart-badge">0</span>
+      </button>
     </div>
   </header>
 
@@ -169,7 +169,6 @@
     <div class="panel">
       <button class="close-btn" data-close="accountOverlay">&times;</button>
 
-      <!-- VISTA 1: Autenticación Avanzada -->
       <div id="authView">
         <p class="panel-label">Acceso / 03</p>
         <h3 id="authTitle">Establecer terminal</h3>
@@ -187,7 +186,6 @@
         </p>
       </div>
 
-      <!-- VISTA 2: Mi Perfil Avanzado (SPA Interno) -->
       <div id="profileView" class="hidden">
         <p class="panel-label">Terminal / Activa</p>
         <div class="profile-head">
@@ -209,7 +207,6 @@
         </div>
         <p id="levelDesc" class="fineprint level-desc"></p>
 
-        <!-- SUB-SECCIÓN: Configuración de Parámetros/Preferencias -->
         <p class="panel-label">// PARÁMETROS GENERALES</p>
         <div class="profile-settings-block">
           <div class="setting-item">
@@ -232,7 +229,6 @@
           <button id="savePrefsBtn" class="btn full" style="font-size:0.7rem; padding:0.5rem; margin-top:0.8rem;">Actualizar Configuración</button>
         </div>
 
-        <!-- SUB-SECCIÓN: Administración de cuenta -->
         <p class="panel-label" style="margin-top: 1.5rem;">// ADMINISTRACIÓN DE TERMINAL</p>
         <div class="profile-settings-block">
           <input id="updateEmail" type="email" placeholder="Modificar Correo electrónico" />
@@ -272,18 +268,18 @@
     <div class="panel promo-modal">
       <button class="close-btn" id="closePromoBtn">&times;</button>
       <p class="panel-label">// BENEFICIOS EXCLUSIVOS</p>
-      <h3 class="wordmark" style="font-size: 1.2rem; margin-bottom: 1rem;">segundo texto en blanco</h3>
+      <h3 class="wordmark" style="font-size: 1.2rem; margin-bottom: 1rem;">RED PROTOCOL: ACTIVADA</h3>
       <div class="product-swatch" style="height: 140px; margin-bottom: 1.5rem; background: rgba(95, 217, 122, 0.05); border-color: var(--line-strong);">
         <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       </div>
       <p class="hero-sub" style="font-size: 0.8rem; text-align: left; margin-bottom: 1.5rem; color: var(--text);">
-        este es un texto prueba para unirse a <span style="color: var(--accent);">oxium corporations</span> y recibir beneficios exclusivos y un sistema de <span style="color: var(--accent);">puntos</span> para canjear productos unicos.
+        Enlaza tu terminal al <span style="color: var(--accent);">Club Oxium</span> para recibir transmisiones encriptadas, acumular puntos de rango con multiplicador <span style="color: var(--accent);">x1.5</span> y asegurar acceso prioritario a prototipos.
       </p>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
         <button id="promoLoginBtn" class="btn">INGRESAR</button>
         <button id="promoRegBtn" class="btn btn-outline">UNIRME</button>
       </div>
-      <p class="fineprint" style="text-align: center; margin-top: 1rem;">[ Acceso anticipado. Envío gratis. ]</p>
+      <p class="fineprint" style="text-align: center; margin-top: 1rem;">[ ACCESO RESTRINGIDO A OPERADORES ]</p>
     </div>
   </div>
 

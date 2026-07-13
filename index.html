@@ -7,14 +7,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <!-- Forzamos la actualización de caché en tu Mac cambiando la versión a ?v=106 -->
-  <link rel="stylesheet" href="styles.css?v=106" />
+  <!-- Forzamos la recarga cambiando la versión a ?v=107 -->
+  <link rel="stylesheet" href="styles.css?v=107" />
 </head>
 <body>
 
   <div class="grid-overlay" aria-hidden="true"></div>
 
-  <!-- BARRA DE ESTADO SUPERIOR (ESTILO TERMINAL TÁCTICA) -->
+  <!-- BARRA DE ESTADO SUPERIOR -->
   <div class="chrome-bar">
     <div class="chrome-url">HTTPS://OXIUM.LABS</div>
     <div class="chrome-spacer"></div>
@@ -23,7 +23,7 @@
     </div>
   </div>
 
-  <!-- NAVEGACIÓN PRINCIPAL (HEADER MINIMALISTA DE REFERENCIA) -->
+  <!-- NAVEGACIÓN PRINCIPAL -->
   <header class="nav">
     <div class="nav-brand-area">
       <a href="#" class="wordmark">OXIUM <span class="brand-cursor">_</span></a>
@@ -46,7 +46,7 @@
     </div>
   </header>
 
-  <!-- HERO ESTILO TECHWEAR INTERACTIVO -->
+  <!-- HERO -->
   <section class="hero">
     <div class="hero-data-bar">
       <div class="hero-coordinates">LAT 40.4168 / MEX -3.7038</div>
@@ -59,31 +59,75 @@
       <p class="hero-sub-left">Cold. Functional. Precise.</p>
       
       <div class="hero-action-row">
-        <a href="#catalogo" class="btn-neon-block">VER CATÁLOGO →</a>
+        <a href="#categories" class="btn-neon-block">VER CATEGORÍAS ↓</a>
         <span class="hero-stock-counter">[6] UNIDADES DISPONIBLES</span>
       </div>
     </div>
-
     <div class="hero-tab">Productos / catalog</div>
   </section>
 
-  <!-- CATALOGO Y VISTA DE DETALLE INTERACTIVA -->
+  <!-- NUEVA SECCIÓN DE CATEGORÍAS INTERACTIVAS -->
+  <section id="categories" class="categories-section">
+    <div class="section-head">
+      <h2>Módulos <span>/ categorías</span></h2>
+      <p>Selecciona un segmento de equipamiento para iniciar el filtrado.</p>
+    </div>
+    <div class="categories-grid">
+      <!-- Categoría 1: Top -->
+      <a href="category.html?cat=top" class="category-card">
+        <div class="category-swatch">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M8 2l4 2 4-2 4 4-2 3v13H4V9L2 6l6-4z"/></svg>
+        </div>
+        <p class="category-name">/ TOP</p>
+      </a>
+
+      <!-- Categoría 2: Bottoms -->
+      <a href="category.html?cat=bottoms" class="category-card">
+        <div class="category-swatch">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M4 2h16v4l-2 14H6L4 6V2zm0 4h16M12 6v14"/></svg>
+        </div>
+        <p class="category-name">/ BOTTOMS</p>
+      </a>
+
+      <!-- Categoría 3: Accessories -->
+      <a href="category.html?cat=accessories" class="category-card">
+        <div class="category-swatch">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 22a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 2a7 7 0 0 0-7 7v3h14V9a7 7 0 0 0-7-7z"/></svg>
+        </div>
+        <p class="category-name">/ ACCESSORIES</p>
+      </a>
+
+      <!-- Categoría 4: Jewelry -->
+      <a href="category.html?cat=jewelry" class="category-card">
+        <div class="category-swatch">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="7"/><path d="M12 5a3 3 0 0 1 3 3M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+        </div>
+        <p class="category-name">/ JEWELRY</p>
+      </a>
+
+      <!-- Categoría 5: Backpacks -->
+      <a href="category.html?cat=backpacks" class="category-card">
+        <div class="category-swatch">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M16 20V7a4 4 0 0 0-8 0v13M4 20h16M5 10h14v10H5V10z"/></svg>
+        </div>
+        <p class="category-name">/ BACKPACKS</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- CATALOGO DESTACADO PRINCIPAL -->
   <section id="catalogo" class="catalog">
-    
-    <!-- CONTENEDOR FRONTAL DEL CATÁLOGO -->
     <div id="catalogFront">
       <div class="section-head">
-        <h2>Catálogo <span>/ 01</span></h2>
-        <p>Piezas construidas para durar — precios en MXN.</p>
+        <h2>Destacados <span>/ 01</span></h2>
+        <p>Prototipos recomendados para despliegue inmediato.</p>
       </div>
       <div id="productGrid" class="product-grid"></div>
     </div>
 
-    <!-- CONTENEDOR DE LA VISTA DE DETALLE DE TRES BLOQUES -->
+    <!-- DETALLE INTERACTIVO INTERNO (Se mantiene por consistencia global) -->
     <div id="productDetailView" class="hidden">
       <button id="backToCatalog" class="link-btn" style="margin-bottom: 2.5rem; color: var(--accent);">← VOLVER_AL_CATÁLOGO</button>
-      
-      <!-- BLOQUE 1: Galería, especificaciones y selectores -->
       <div class="detail-main-block">
         <div class="detail-gallery">
           <div id="detailSwatch" class="product-swatch detail-large-swatch"></div>
@@ -93,35 +137,22 @@
           <h2 id="detailName" class="hero-title" style="font-size: 2.5rem; margin: 0.5rem 0; text-align: left; letter-spacing: 0;"></h2>
           <p id="detailPrice" class="price" style="font-size: 1.3rem; color: var(--accent); font-weight: 700;"></p>
           <p id="detailDesc" class="hero-sub" style="margin: 1.5rem 0; font-size: 0.85rem; text-align: left; max-width: 100%;"></p>
-          
           <div class="selector-row">
             <p class="nav-label">Talla <span>/ size</span></p>
-            <div class="size-options">
-              <span class="active">S</span><span>M</span><span>L</span><span>XL</span>
-            </div>
+            <div class="size-options"><span class="active">S</span><span>M</span><span>L</span><span>XL</span></div>
           </div>
-
           <div class="selector-row" style="margin-top: 1rem;">
             <p class="nav-label">Color <span>/ tint</span></p>
-            <div class="color-options">
-              <span class="color-dot active" style="background: #2f4a38;"></span>
-              <span class="color-dot" style="background: #1a1a1a;"></span>
-              <span class="color-dot" style="background: #555;"></span>
-            </div>
+            <div class="color-options"><span class="color-dot active" style="background: #2f4a38;"></span><span class="color-dot" style="background: #1a1a1a;"></span><span class="color-dot" style="background: #555;"></span></div>
           </div>
-
           <button id="detailAddBtn" class="btn full" style="margin-top: 2rem;">AÑADIR_A_LA_CARGA</button>
         </div>
       </div>
-
-      <!-- BLOQUE 2: Complete the Look Interactivo -->
       <div class="look-block">
         <div class="look-frame">
           <div class="crosshair crosshair--tl">+</div><div class="crosshair crosshair--tr">+</div>
           <div class="crosshair crosshair--bl">+</div><div class="crosshair crosshair--br">+</div>
-          
           <h3 class="wordmark" style="font-size: 1.1rem; margin-bottom: 1.5rem; letter-spacing: 0.1em; text-align: center;">COMPLETE THE LOOK</h3>
-          
           <div class="look-interactive-area">
             <div class="look-center-render">
               <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.3" style="width:55%; height:55%;"><path d="M12 2a3 3 0 0 0-3 3v2a5 5 0 0 0-5 5v8h16v-8a5 5 0 0 0-5-5V5a3 3 0 0 0-3-3z"/></svg>
@@ -130,8 +161,6 @@
           </div>
         </div>
       </div>
-
-      <!-- BLOQUE 3: Productos Relacionados -->
       <div class="suggestions-block">
         <p class="nav-label" style="text-align: center; margin-bottom: 2rem;">Operaciones sugeridas <span>/ you may also like</span></p>
         <div id="suggestionsGrid" class="product-grid" style="border: 1px solid var(--line);"></div>
@@ -145,137 +174,78 @@
       <div>
         <p class="nav-label">Membresía <span>/ 02</span></p>
         <h2>Club Oxium</h2>
-        <p class="hero-sub">Suscríbete y suma puntos cada mes automáticamente, incluso sin comprar. Avanza más rápido en tu nivel de cuenta.</p>
+        <p class="hero-sub">Suscríbete y suma puntos cada mes automáticamente, incluso sin comprar.</p>
       </div>
       <button id="subscribeBtn" class="btn">Unirme — $800 MXN/mes</button>
     </div>
   </section>
 
-  <!-- FOOTER: FICHA TECNICA -->
+  <!-- FOOTER -->
   <footer id="contacto" class="footer">
     <div class="footer-grid">
       <div class="footer-barcode" aria-hidden="true"></div>
-      <div class="footer-block">
-        <p class="footer-label">Marca</p>
-        <p class="footer-value">OXIUM</p>
-      </div>
-      <div class="footer-block">
-        <p class="footer-label">LAT</p>
-        <p class="footer-value">40.4168 / MEX -3.7038</p>
-      </div>
-      <div class="footer-block">
-        <p class="footer-label">Contacto</p>
-        <p class="footer-value">system@oxiumlabs.net</p>
-      </div>
-      <div class="footer-block">
-        <p class="footer-label">Nota</p>
-        <p class="footer-value footer-fine">Sitio de prueba — pagos no procesados. UWU</p>
-      </div>
+      <div class="footer-block"><p class="footer-label">Marca</p><p class="footer-value">OXIUM</p></div>
+      <div class="footer-block"><p class="footer-label">LAT</p><p class="footer-value">40.4168 / MEX -3.7038</p></div>
+      <div class="footer-block"><p class="footer-label">Contacto</p><p class="footer-value">system@oxiumlabs.net</p></div>
+      <div class="footer-block"><p class="footer-label">Nota</p><p class="footer-value footer-fine">Sitio de prueba. UWU</p></div>
     </div>
   </footer>
 
-  <!-- ACCOUNT & PROFILE DRAWER MODULAR -->
+  <!-- MODAL CUENTA -->
   <div id="accountOverlay" class="overlay hidden">
     <div class="panel">
       <button class="close-btn" data-close="accountOverlay">&times;</button>
-
-      <!-- VISTA 1: Autenticación Avanzada -->
       <div id="authView">
         <p class="panel-label">Acceso / 03</p>
         <h3 id="authTitle">Establecer terminal</h3>
-        
-        <div id="registerOnlyFields">
-          <input id="authName" type="text" placeholder="Nombre de Operador" />
-        </div>
+        <div id="registerOnlyFields"><input id="authName" type="text" placeholder="Nombre de Operador" /></div>
         <input id="authEmail" type="email" placeholder="Correo electrónico (ID)" />
         <input id="authPassword" type="password" placeholder="Clave encriptada" />
-        
         <button id="authSubmit" class="btn full">Ejecutar Enlace</button>
-        
-        <p class="fineprint" style="text-align: center; margin-top: 1rem; cursor: pointer; color: var(--accent);" id="toggleAuthMode">
-          ¿Ya posees una terminal activa? Acceder.
-        </p>
+        <p class="fineprint" style="text-align: center; margin-top: 1rem; cursor: pointer; color: var(--accent);" id="toggleAuthMode">¿Ya posees una terminal activa? Acceder.</p>
       </div>
-
-      <!-- VISTA 2: Mi Perfil Avanzado (Configuraciones de Cuenta) -->
       <div id="profileView" class="hidden">
         <p class="panel-label">Terminal / Activa</p>
         <div class="profile-head">
           <div id="levelBadge" class="level-badge"></div>
-          <div>
-            <h3 id="profileName"></h3>
-            <p id="profileEmail" class="fineprint"></p>
-          </div>
+          <div><h3 id="profileName"></h3><p id="profileEmail" class="fineprint"></p></div>
         </div>
-
         <div class="level-bar-wrap">
-          <div class="level-bar-labels">
-            <span id="levelName"></span>
-            <span id="levelNext"></span>
-          </div>
-          <div class="level-bar-track">
-            <div id="levelBarFill" class="level-bar-fill"></div>
-          </div>
+          <div class="level-bar-labels"><span id="levelName"></span><span id="levelNext"></span></div>
+          <div class="level-bar-track"><div id="levelBarFill" class="level-bar-fill"></div></div>
         </div>
         <p id="levelDesc" class="fineprint level-desc"></p>
-
         <p class="panel-label">// PARÁMETROS GENERALES</p>
         <div class="profile-settings-block">
-          <div class="setting-item">
-            <label class="fineprint">TALLA DEFAULT</label>
-            <select id="prefSize" class="technical-select">
-              <option value="S">S // SMALL</option>
-              <option value="M">M // MEDIUM</option>
-              <option value="L">L // LARGE</option>
-              <option value="XL">XL // EXTRA LARGE</option>
-            </select>
-          </div>
-          <div class="setting-item" style="margin-top: 0.8rem;">
-            <label class="fineprint">PALETA RECEPTORA</label>
-            <select id="prefColor" class="technical-select">
-              <option value="#2f4a38">OXIDE GREEN</option>
-              <option value="#1a1a1a">RAW BLACK</option>
-              <option value="#55554f">STEEL GREY</option>
-            </select>
-          </div>
+          <select id="prefSize" class="technical-select"><option value="S">S // SMALL</option><option value="M">M // MEDIUM</option><option value="L">L // LARGE</option><option value="XL">XL // EXTRA LARGE</option></select>
+          <select id="prefColor" class="technical-select" style="margin-top:0.5rem;"><option value="#2f4a38">OXIDE GREEN</option><option value="#1a1a1a">RAW BLACK</option><option value="#55554f">STEEL GREY</option></select>
           <button id="savePrefsBtn" class="btn full" style="font-size:0.7rem; padding:0.5rem; margin-top:0.8rem;">Actualizar Configuración</button>
         </div>
-
         <p class="panel-label" style="margin-top: 1.5rem;">// ADMINISTRACIÓN DE TERMINAL</p>
         <div class="profile-settings-block">
-          <input id="updateEmail" type="email" placeholder="Modificar Correo electrónico" />
-          <input id="updatePassword" type="password" placeholder="Modificar Clave encriptada" />
+          <input id="updateEmail" type="email" placeholder="Modificar Correo" /><input id="updatePassword" type="password" placeholder="Modificar Clave" />
           <button id="updateAccountBtn" class="btn btn-outline full" style="font-size:0.7rem; padding:0.5rem;">Sincronizar Credenciales</button>
         </div>
-
-        <p class="panel-label" style="margin-top: 1.5rem;">Historial</p>
-        <ul id="historyList" class="history-list"></ul>
-
+        <p class="panel-label" style="margin-top: 1.5rem;">Historial</p><ul id="historyList" class="history-list"></ul>
         <button id="logoutBtn" class="btn btn-outline full" style="border-color: #ff5555; color: #ff5555; margin-top: 2rem;">Cerrar sesión</button>
       </div>
     </div>
   </div>
 
-  <!-- CART DRAWER -->
+  <!-- MODAL CARRITO -->
   <div id="cartOverlay" class="overlay hidden">
     <div class="panel">
       <button class="close-btn" data-close="cartOverlay">&times;</button>
-      <p class="panel-label">Carrito / 04</p>
-      <h3>Tu carrito</h3>
+      <p class="panel-label">Carrito / 04</p><h3>Tu carrito</h3>
       <ul id="cartList" class="cart-list"></ul>
-      <div class="cart-total-row">
-        <span>Total</span>
-        <span id="cartTotal">$0 MXN</span>
-      </div>
+      <div class="cart-total-row"><span>Total</span><span id="cartTotal">$0 MXN</span></div>
       <button id="checkoutBtn" class="btn full">Finalizar compra</button>
-      <p class="fineprint">Compra simulada: no se procesan pagos reales.</p>
     </div>
   </div>
 
-  <!-- TOAST -->
   <div id="toast" class="toast hidden"></div>
 
-  <!-- ANUNCIO POP-UP DE ENTRADA -->
+  <!-- ANUNCIO POP-UP -->
   <div id="promoOverlay" class="overlay hidden" style="justify-content: center; align-items: center; background: rgba(0,0,0,0.85);">
     <div class="panel promo-modal">
       <button class="close-btn" id="closePromoBtn">&times;</button>
@@ -284,14 +254,8 @@
       <div class="product-swatch" style="height: 140px; margin-bottom: 1.5rem; background: rgba(95, 217, 122, 0.05); border-color: var(--line-strong);">
         <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       </div>
-      <p class="hero-sub" style="font-size: 0.8rem; text-align: left; margin-bottom: 1.5rem; color: var(--text);">
-        Enlaza tu terminal al <span style="color: var(--accent);">Club Oxium</span> para recibir transmisiones encriptadas, acumular puntos de rango con multiplicador <span style="color: var(--accent);">x1.5</span> y asegurar acceso prioritario a prototipos.
-      </p>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-        <button id="promoLoginBtn" class="btn">INGRESAR</button>
-        <button id="promoRegBtn" class="btn btn-outline">UNIRME</button>
-      </div>
-      <p class="fineprint" style="text-align: center; margin-top: 1rem;">[ ACCESO RESTRINGIDO A OPERADORES ]</p>
+      <p class="hero-sub" style="font-size: 0.8rem; text-align: left; margin-bottom: 1.5rem;">Enlaza tu terminal al Club Oxium para recibir ventajas tácticas prioritarias.</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;"><button id="promoLoginBtn" class="btn">INGRESAR</button><button id="promoRegBtn" class="btn btn-outline">UNIRME</button></div>
     </div>
   </div>
 

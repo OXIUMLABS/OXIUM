@@ -1,7 +1,7 @@
 backend:
   name: git-gateway
   site_domain: oxiumlabs.netlify.app
-  branch: main  # Cambia a 'master' si tu rama en GitHub se llama así
+  branch: main  # Si tu rama principal se llama master, cambia 'main' por 'master'
 
 display_url: https://oxiumlabs.github.io/OXIUM/
 media_folder: "images"

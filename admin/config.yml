@@ -1,11 +1,11 @@
 backend:
   name: github
-  repo: OXIUMLABS/OXIUM # Nombre exacto de tu usuario/repositorio en GitHub
-  branch: main # o master (según la rama principal de tu repositorio)
+  repo: OXIUMLABS/OXIUM
+  branch: main  # O 'master' si tu rama principal se llama así
   base_url: https://decap-oauth-master.vercel.app
   auth_endpoint: /auth
 
-# Dónde se guardarán y publicarán las fotos subidas
+display_url: https://oxiumlabs.github.io/OXIUM/
 media_folder: "images"
 public_folder: "images"
 
@@ -13,7 +13,7 @@ collections:
   - name: "products"
     label: "Productos del Catálogo"
     label_singular: "Producto"
-    folder: "content/products" # Crea una carpeta de datos
+    folder: "content/products"
     create: true
     slug: "{{slug}}"
     fields:

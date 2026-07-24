@@ -5,7 +5,7 @@ backend:
 
 display_url: https://oxiumlabs.github.io/OXIUM/
 media_folder: "images"
-public_folder: "images"
+public_folder: "/OXIUM/images"
 
 collections:
   - name: "products"

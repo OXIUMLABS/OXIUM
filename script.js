@@ -1,5 +1,5 @@
 // ==========================================
-// CONFIGURACIÓN DE TU TIENDA OXIUM
+// OXIUM LABS — CORE SYSTEM SCRIPT
 // ==========================================
 const GITHUB_OWNER = "OXIUMLABS";
 const GITHUB_REPO = "OXIUM";
@@ -7,36 +7,28 @@ const PRODUCTS_FOLDER = "content/products";
 
 let productsList = [];
 
-// ==========================================
-// INICIALIZACIÓN AL CARGAR LA PÁGINA
-// ==========================================
 document.addEventListener("DOMContentLoaded", async () => {
-  // Cargar productos creados desde Decap CMS
+  // Cargar productos desde Decap CMS
   productsList = await fetchProductsFromCMS();
   
-  // Mostrar productos en la web
+  // Renderizar catálogo sobre tu grid original
   renderCatalog(productsList);
-  setupCategoryFilters();
 });
 
 // ==========================================
-// LECTURA DESDE DECAP CMS (content/products)
+// LECTURA DINÁMICA DE DECAP CMS
 // ==========================================
 async function fetchProductsFromCMS() {
   try {
     const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${PRODUCTS_FOLDER}`;
     const response = await fetch(url);
     
-    if (!response.ok) {
-      console.warn("Buscando productos en la carpeta content/products...");
-      return [];
-    }
+    if (!response.ok) return [];
 
     const files = await response.json();
     const loadedProducts = [];
 
     for (const file of files) {
-      // Ignorar archivos del sistema como .gitkeep
       if (file.name.endsWith(".md")) {
         const fileRes = await fetch(file.download_url);
         const textContent = await fileRes.text();
@@ -46,7 +38,6 @@ async function fetchProductsFromCMS() {
           parsedData.price = parseFloat(parsedData.price) || 0;
           parsedData.category = (parsedData.category || "top").toLowerCase();
           
-          // Corrección automática de ruta de imagen
           if (parsedData.image) {
             parsedData.image = parsedData.image.replace(/^\//, '');
           }
@@ -58,12 +49,12 @@ async function fetchProductsFromCMS() {
 
     return loadedProducts;
   } catch (error) {
-    console.error("Error al cargar productos del CMS:", error);
+    console.error("Error al conectar con el servidor de productos:", error);
     return [];
   }
 }
 
-// Extrae los datos del archivo guardado por Decap CMS
+// Extraer metadatos de Markdown
 function parseYAMLFrontmatter(text) {
   const lines = text.split("\n");
   const data = {};
@@ -80,10 +71,7 @@ function parseYAMLFrontmatter(text) {
       const key = line.slice(0, colonIndex).trim();
       let value = line.slice(colonIndex + 1).trim();
 
-      if (
-        (value.startsWith('"') && value.endsWith('"')) ||
-        (value.startsWith("'") && value.endsWith("'"))
-      ) {
+      if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
         value = value.slice(1, -1);
       }
       data[key] = value;
@@ -93,18 +81,18 @@ function parseYAMLFrontmatter(text) {
 }
 
 // ==========================================
-// RENDERIZADO DEL CATÁLOGO
+// RENDERIZADO EN PRODUCTGRID (ESTÉTIKA OK)
 // ==========================================
 function renderCatalog(items) {
-  const catalogContainer = document.getElementById("catalog-container") || document.querySelector(".products-grid");
-  if (!catalogContainer) return;
+  const productGrid = document.getElementById("productGrid");
+  if (!productGrid) return;
 
-  catalogContainer.innerHTML = "";
+  productGrid.innerHTML = "";
 
   if (items.length === 0) {
-    catalogContainer.innerHTML = `
-      <div class="no-products" style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #888;">
-        <p>No hay prendas disponibles por el momento.</p>
+    productGrid.innerHTML = `
+      <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--accent); font-family: 'JetBrains Mono', monospace;">
+        <p>// NO HAY PROTOTIPOS REGISTRADOS EN EL SISTEMA.</p>
       </div>
     `;
     return;
@@ -115,39 +103,19 @@ function renderCatalog(items) {
     card.className = "product-card";
     card.setAttribute("data-category", product.category);
 
+    const imageSrc = product.image || 'images/placeholder.jpg';
+
     card.innerHTML = `
-      <div class="product-image-container">
-        <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy" onError="this.src='https://via.placeholder.com/300x300?text=OXIUM';">
+      <div class="product-swatch">
+        <img src="${imageSrc}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;" onError="this.style.display='none';">
       </div>
       <div class="product-info">
-        <span class="product-id">${product.id}</span>
-        <h3 class="product-title">${product.name}</h3>
-        <p class="product-price">$${product.price.toLocaleString("es-MX")} MXN</p>
-        <button class="btn-add-cart">AGREGAR AL CARRITO</button>
+        <span class="panel-label">${product.id}</span>
+        <h3 class="product-title" style="margin: 0.3rem 0; font-size: 1rem;">${product.name}</h3>
+        <p class="price" style="color: var(--accent); font-weight: 700;">$${product.price.toLocaleString("es-MX")} MXN</p>
       </div>
     `;
 
-    catalogContainer.appendChild(card);
-  });
-}
-
-// ==========================================
-// FILTROS DE CATEGORÍA
-// ==========================================
-function setupCategoryFilters() {
-  const categoryButtons = document.querySelectorAll("[data-filter]");
-  categoryButtons.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      categoryButtons.forEach((b) => b.classList.remove("active"));
-      e.target.classList.add("active");
-
-      const selectedCategory = e.target.getAttribute("data-filter").toLowerCase();
-      if (selectedCategory === "all") {
-        renderCatalog(productsList);
-      } else {
-        const filtered = productsList.filter((p) => p.category === selectedCategory);
-        renderCatalog(filtered);
-      }
-    });
+    productGrid.appendChild(card);
   });
 }

@@ -1,29 +1,26 @@
 // ==========================================
-// CONFIGURACIÓN Y ESTADO DE LA TIENDA
+// CONFIGURACIÓN DE TU TIENDA OXIUM
 // ==========================================
 const GITHUB_OWNER = "OXIUMLABS";
 const GITHUB_REPO = "OXIUM";
 const PRODUCTS_FOLDER = "content/products";
 
 let productsList = [];
-let cart = [];
 
 // ==========================================
-// INICIALIZACIÓN
+// INICIALIZACIÓN AL CARGAR LA PÁGINA
 // ==========================================
 document.addEventListener("DOMContentLoaded", async () => {
-  // Cargar productos desde Decap CMS
+  // Cargar productos creados desde Decap CMS
   productsList = await fetchProductsFromCMS();
   
-  // Renderizar la tienda
+  // Mostrar productos en la web
   renderCatalog(productsList);
   setupCategoryFilters();
-  setupSearch();
-  setupCartUI();
 });
 
 // ==========================================
-// LECTURA DINÁMICA DE PRODUCTOS (DECAP CMS)
+// LECTURA DESDE DECAP CMS (content/products)
 // ==========================================
 async function fetchProductsFromCMS() {
   try {
@@ -31,7 +28,7 @@ async function fetchProductsFromCMS() {
     const response = await fetch(url);
     
     if (!response.ok) {
-      console.warn("No se pudo conectar a la carpeta de productos en GitHub.");
+      console.warn("Buscando productos en la carpeta content/products...");
       return [];
     }
 
@@ -39,15 +36,21 @@ async function fetchProductsFromCMS() {
     const loadedProducts = [];
 
     for (const file of files) {
-      if (file.name.endsWith(".md") || file.name.endsWith(".html")) {
+      // Ignorar archivos del sistema como .gitkeep
+      if (file.name.endsWith(".md")) {
         const fileRes = await fetch(file.download_url);
         const textContent = await fileRes.text();
         const parsedData = parseYAMLFrontmatter(textContent);
 
         if (parsedData && parsedData.id) {
-          // Normalización de tipos de datos
           parsedData.price = parseFloat(parsedData.price) || 0;
           parsedData.category = (parsedData.category || "top").toLowerCase();
+          
+          // Corrección automática de ruta de imagen
+          if (parsedData.image) {
+            parsedData.image = parsedData.image.replace(/^\//, '');
+          }
+          
           loadedProducts.push(parsedData);
         }
       }
@@ -55,12 +58,12 @@ async function fetchProductsFromCMS() {
 
     return loadedProducts;
   } catch (error) {
-    console.error("Error al cargar productos desde el CMS:", error);
+    console.error("Error al cargar productos del CMS:", error);
     return [];
   }
 }
 
-// Parser ligero para extraer Frontmatter de Markdown (.md)
+// Extrae los datos del archivo guardado por Decap CMS
 function parseYAMLFrontmatter(text) {
   const lines = text.split("\n");
   const data = {};
@@ -77,7 +80,6 @@ function parseYAMLFrontmatter(text) {
       const key = line.slice(0, colonIndex).trim();
       let value = line.slice(colonIndex + 1).trim();
 
-      // Limpiar comillas si existen
       if (
         (value.startsWith('"') && value.endsWith('"')) ||
         (value.startsWith("'") && value.endsWith("'"))
@@ -91,7 +93,7 @@ function parseYAMLFrontmatter(text) {
 }
 
 // ==========================================
-// RENDERIZADO DEL CATÁLOGO DE PRODUCTOS
+// RENDERIZADO DEL CATÁLOGO
 // ==========================================
 function renderCatalog(items) {
   const catalogContainer = document.getElementById("catalog-container") || document.querySelector(".products-grid");
@@ -102,7 +104,7 @@ function renderCatalog(items) {
   if (items.length === 0) {
     catalogContainer.innerHTML = `
       <div class="no-products" style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #888;">
-        <p>No hay prendas cargadas en esta categoría.</p>
+        <p>No hay prendas disponibles por el momento.</p>
       </div>
     `;
     return;
@@ -115,27 +117,22 @@ function renderCatalog(items) {
 
     card.innerHTML = `
       <div class="product-image-container">
-        <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy" onError="this.src='images/placeholder.jpg';">
+        <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy" onError="this.src='https://via.placeholder.com/300x300?text=OXIUM';">
       </div>
       <div class="product-info">
         <span class="product-id">${product.id}</span>
         <h3 class="product-title">${product.name}</h3>
         <p class="product-price">$${product.price.toLocaleString("es-MX")} MXN</p>
-        <button class="btn-add-cart" onclick="addToCart('${product.id}')">AGREGAR AL CARRITO</button>
+        <button class="btn-add-cart">AGREGAR AL CARRITO</button>
       </div>
     `;
-
-    // Evento para abrir modal de detalle si existe la función
-    card.querySelector(".product-image-container").addEventListener("click", () => {
-      openProductModal(product);
-    });
 
     catalogContainer.appendChild(card);
   });
 }
 
 // ==========================================
-// FILTROS Y BÚSQUEDA
+// FILTROS DE CATEGORÍA
 // ==========================================
 function setupCategoryFilters() {
   const categoryButtons = document.querySelectorAll("[data-filter]");
@@ -153,75 +150,4 @@ function setupCategoryFilters() {
       }
     });
   });
-}
-
-function setupSearch() {
-  const searchInput = document.getElementById("search-input");
-  if (!searchInput) return;
-
-  searchInput.addEventListener("input", (e) => {
-    const query = e.target.value.toLowerCase().trim();
-    const filtered = productsList.filter(
-      (p) =>
-        p.name.toLowerCase().includes(query) ||
-        p.id.toLowerCase().includes(query) ||
-        (p.desc && p.desc.toLowerCase().includes(query))
-    );
-    renderCatalog(filtered);
-  });
-}
-
-// ==========================================
-// GESTIÓN DEL CARRITO
-// ==========================================
-function addToCart(productId) {
-  const product = productsList.find((p) => p.id === productId);
-  if (!product) return;
-
-  const existingItem = cart.find((item) => item.id === productId);
-  if (existingItem) {
-    existingItem.quantity += 1;
-  } else {
-    cart.push({ ...product, quantity: 1 });
-  }
-
-  updateCartUI();
-}
-
-function updateCartUI() {
-  const cartCount = document.getElementById("cart-count");
-  const cartTotal = document.getElementById("cart-total");
-
-  const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-  if (cartCount) cartCount.textContent = totalQuantity;
-  if (cartTotal) cartTotal.textContent = `$${totalPrice.toLocaleString("es-MX")} MXN`;
-}
-
-function setupCartUI() {
-  const cartToggleBtn = document.getElementById("cart-toggle");
-  const cartModal = document.getElementById("cart-modal");
-
-  if (cartToggleBtn && cartModal) {
-    cartToggleBtn.addEventListener("click", () => {
-      cartModal.classList.toggle("active");
-    });
-  }
-}
-
-// ==========================================
-// DETALLE DEL PRODUCTO (MODAL)
-// ==========================================
-function openProductModal(product) {
-  const modal = document.getElementById("product-detail-modal");
-  if (!modal) return;
-
-  document.getElementById("modal-img").src = product.image;
-  document.getElementById("modal-title").textContent = product.name;
-  document.getElementById("modal-id").textContent = product.id;
-  document.getElementById("modal-price").textContent = `$${product.price.toLocaleString("es-MX")} MXN`;
-  document.getElementById("modal-desc").textContent = product.desc || "Sin descripción disponible.";
-
-  modal.classList.add("active");
 }

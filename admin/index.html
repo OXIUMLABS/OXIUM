@@ -18,8 +18,8 @@
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
   <script>
+    // Forzamos la conexión directa a tu sitio de Netlify
     if (window.netlifyIdentity) {
-      // Vinculamos la instancia de Identity a tu dominio de Netlify
       window.netlifyIdentity.on("init", user => {
         if (!user) {
           window.netlifyIdentity.on("login", () => {

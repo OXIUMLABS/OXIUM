@@ -31,3 +31,41 @@ collections:
           - { label: "Accessories", value: "accessories" }
           - { label: "Jewelry", value: "jewelry" }
           - { label: "Backpacks", value: "backpacks" }
+
+collections:
+  - name: "products"
+    label: "Productos del Catálogo"
+    label_singular: "Producto"
+    folder: "content/products"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "ID del Producto", name: "id", widget: "string" }
+      - { label: "Nombre de la Prenda", name: "name", widget: "string" }
+      - { label: "Precio (MXN)", name: "price", widget: "number", value_type: "int" }
+      - { label: "Descripción Técnica", name: "desc", widget: "text" }
+      - { label: "Imagen del Producto", name: "image", widget: "image" }
+      - label: "Categoría"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "Top", value: "top" }
+          - { label: "Bottoms", value: "bottoms" }
+          - { label: "Accessories", value: "accessories" }
+          - { label: "Jewelry", value: "jewelry" }
+          - { label: "Backpacks", value: "backpacks" }
+
+  # NUEVA COLECCIÓN DE ARTÍCULOS
+  - name: "records"
+    label: "Archivos / reportes"
+    label_singular: "Artículo"
+    folder: "content/records"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Título del Artículo", name: "title", widget: "string" }
+      - { label: "Fecha de Publicación", name: "date", widget: "datetime" }
+      - { label: "Autor / Código Operador", name: "author", widget: "string", default: "OXIUM_LABS" }
+      - { label: "Imagen de Portada", name: "image", widget: "image" }
+      - { label: "Resumen Breve", name: "excerpt", widget: "string" }
+      - { label: "Contenido del Artículo", name: "body", widget: "markdown" }

@@ -1,7 +1,7 @@
 backend:
   name: git-gateway
   site_domain: oxiumlabs.netlify.app
-  branch: main  # Cambia a 'master' si tu rama en GitHub se llama master
+  branch: main  # Cambia a 'master' si tu rama se llama master
 
 display_url: https://oxiumlabs.github.io/OXIUM/
 
@@ -32,33 +32,10 @@ collections:
           - { label: "Jewelry", value: "jewelry" }
           - { label: "Backpacks", value: "backpacks" }
 
-collections:
-  - name: "products"
-    label: "Productos del Catálogo"
-    label_singular: "Producto"
-    folder: "content/products"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - { label: "ID del Producto", name: "id", widget: "string" }
-      - { label: "Nombre de la Prenda", name: "name", widget: "string" }
-      - { label: "Precio (MXN)", name: "price", widget: "number", value_type: "int" }
-      - { label: "Descripción Técnica", name: "desc", widget: "text" }
-      - { label: "Imagen del Producto", name: "image", widget: "image" }
-      - label: "Categoría"
-        name: "category"
-        widget: "select"
-        options:
-          - { label: "Top", value: "top" }
-          - { label: "Bottoms", value: "bottoms" }
-          - { label: "Accessories", value: "accessories" }
-          - { label: "Jewelry", value: "jewelry" }
-          - { label: "Backpacks", value: "backpacks" }
-
-  # NUEVA COLECCIÓN DE ARTÍCULOS
+  # NUEVA COLECCIÓN: RECORDS / EDITORIAL DE MODA
   - name: "records"
-    label: "Archivos / reportes"
-    label_singular: "Artículo"
+    label: "Records / Publicaciones"
+    label_singular: "Record"
     folder: "content/records"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"

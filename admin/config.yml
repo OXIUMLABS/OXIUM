@@ -1,11 +1,13 @@
 backend:
   name: git-gateway
   site_domain: oxiumlabs.netlify.app
-  branch: main  # Si tu rama principal se llama master, cambia 'main' por 'master'
+  branch: main  # Cambia a 'master' si tu rama en GitHub se llama master
 
 display_url: https://oxiumlabs.github.io/OXIUM/
+
+# CONFIGURACIÓN DE RUTAS DE IMÁGENES
 media_folder: "images"
-public_folder: "/OXIUM/images"
+public_folder: "images"
 
 collections:
   - name: "products"

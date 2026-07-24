@@ -2,7 +2,8 @@ backend:
   name: github
   repo: OXIUM LABS/OXIUM # Nombre exacto de tu usuario/repositorio en GitHub
   branch: main # o master (según la rama principal de tu repositorio)
-  site_domain: oxiumlabs.github.io
+  base_url: https://decap-oauth-master.vercel.app
+  auth_endpoint: /auth
 
 # Dónde se guardarán y publicarán las fotos subidas
 media_folder: "images"

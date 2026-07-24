@@ -10,16 +10,11 @@
       background-color: #000000;
     }
   </style>
+  <!-- Script de autenticación con Netlify Identity -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
   <!-- Carga del script oficial de Decap CMS -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  
-  <script>
-    // Inicialización explícita del panel de administración
-    if (window.CMS) {
-      CMS.init();
-    }
-  </script>
 </body>
 </html>

@@ -1,9 +1,6 @@
 backend:
-  name: github
-  repo: OXIUMLABS/OXIUM
-  branch: main  # O 'master' si tu rama principal se llama así
-  base_url: https://decap-oauth-master.vercel.app
-  auth_endpoint: /auth
+  name: git-gateway
+  branch: main  # Cambia a 'master' si tu rama principal se llama así
 
 display_url: https://oxiumlabs.github.io/OXIUM/
 media_folder: "images"

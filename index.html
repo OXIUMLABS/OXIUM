@@ -35,6 +35,7 @@
     <div class="nav-links-center">
       <a href="#catalogo" class="active">/CATÁLOGO</a>
       <a href="#club">/COLECCIÓN</a>
+      <a href="records.html">/RECORDS</a>
       <button id="openAccountBtn" class="nav-terminal-link">/SISTEMA (<span id="navUserLabel">ENTRAR</span>)</button>
     </div>
 
@@ -132,23 +133,6 @@
           <button id="detailAddBtn" class="btn full" style="margin-top: 2rem;">AÑADIR_A_LA_CARGA</button>
         </div>
       </div>
-      <div class="look-block">
-        <div class="look-frame">
-          <div class="crosshair crosshair--tl">+</div><div class="crosshair crosshair--tr">+</div>
-          <div class="crosshair crosshair--bl">+</div><div class="crosshair crosshair--br">+</div>
-          <h3 class="wordmark" style="font-size: 1.1rem; margin-bottom: 1.5rem; letter-spacing: 0.1em; text-align: center;">COMPLETE THE LOOK</h3>
-          <div class="look-interactive-area">
-            <div class="look-center-render">
-              <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.3" style="width:55%; height:55%;"><path d="M12 2a3 3 0 0 0-3 3v2a5 5 0 0 0-5 5v8h16v-8a5 5 0 0 0-5-5V5a3 3 0 0 0-3-3z"/></svg>
-            </div>
-            <div id="lookTagsContainer"></div>
-          </div>
-        </div>
-      </div>
-      <div class="suggestions-block">
-        <p class="nav-label" style="text-align: center; margin-bottom: 2rem;">Operaciones sugeridas <span>/ you may also like</span></p>
-        <div id="suggestionsGrid" class="product-grid" style="border: 1px solid var(--line);"></div>
-      </div>
     </div>
   </section>
 
@@ -188,31 +172,6 @@
         <button id="authSubmit" class="btn full">Ejecutar Enlace</button>
         <p class="fineprint" style="text-align: center; margin-top: 1rem; cursor: pointer; color: var(--accent);" id="toggleAuthMode">¿Ya posees una terminal activa? Acceder.</p>
       </div>
-      <div id="profileView" class="hidden">
-        <p class="panel-label">Terminal / Activa</p>
-        <div class="profile-head">
-          <div id="levelBadge" class="level-badge"></div>
-          <div><h3 id="profileName"></h3><p id="profileEmail" class="fineprint"></p></div>
-        </div>
-        <div class="level-bar-wrap">
-          <div class="level-bar-labels"><span id="levelName"></span><span id="levelNext"></span></div>
-          <div class="level-bar-track"><div id="levelBarFill" class="level-bar-fill"></div></div>
-        </div>
-        <p id="levelDesc" class="fineprint level-desc"></p>
-        <p class="panel-label">// PARÁMETROS GENERALES</p>
-        <div class="profile-settings-block">
-          <select id="prefSize" class="technical-select"><option value="S">S // SMALL</option><option value="M">M // MEDIUM</option><option value="L">L // LARGE</option><option value="XL">XL // EXTRA LARGE</option></select>
-          <select id="prefColor" class="technical-select" style="margin-top:0.5rem;"><option value="#2f4a38">OXIDE GREEN</option><option value="#1a1a1a">RAW BLACK</option><option value="#55554f">STEEL GREY</option></select>
-          <button id="savePrefsBtn" class="btn full" style="font-size:0.7rem; padding:0.5rem; margin-top:0.8rem;">Actualizar Configuración</button>
-        </div>
-        <p class="panel-label" style="margin-top: 1.5rem;">// ADMINISTRACIÓN DE TERMINAL</p>
-        <div class="profile-settings-block">
-          <input id="updateEmail" type="email" placeholder="Modificar Correo" /><input id="updatePassword" type="password" placeholder="Modificar Clave" />
-          <button id="updateAccountBtn" class="btn btn-outline full" style="font-size:0.7rem; padding:0.5rem;">Sincronizar Credenciales</button>
-        </div>
-        <p class="panel-label" style="margin-top: 1.5rem;">Historial</p><ul id="historyList" class="history-list"></ul>
-        <button id="logoutBtn" class="btn btn-outline full" style="border-color: #ff5555; color: #ff5555; margin-top: 2rem;">Cerrar sesión</button>
-      </div>
     </div>
   </div>
 
@@ -224,25 +183,6 @@
       <ul id="cartList" class="cart-list"></ul>
       <div class="cart-total-row"><span>Total</span><span id="cartTotal">$0 MXN</span></div>
       <button id="checkoutBtn" class="btn full">Finalizar compra</button>
-    </div>
-  </div>
-
-  <div id="toast" class="toast hidden"></div>
-
-  <!-- ANUNCIO POP-UP DE ENTRADA -->
-  <div id="promoOverlay" class="overlay promo-overlay-center hidden">
-    <div class="panel promo-modal">
-      <button class="close-btn" id="closePromoBtn">&times;</button>
-      <p class="panel-label">// BENEFICIOS EXCLUSIVOS</p>
-      <h3 class="wordmark" style="font-size: 1.2rem; margin-bottom: 1rem;">RED PROTOCOL: ACTIVADA</h3>
-      <div class="product-swatch" style="height: 140px; margin-bottom: 1.5rem; background: rgba(95, 217, 122, 0.05); border-color: var(--line-strong);">
-        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      </div>
-      <p class="hero-sub" style="font-size: 0.8rem; text-align: left; margin-bottom: 1.5rem;">Enlaza tu terminal al Club Oxium para recibir ventajas tácticas prioritarias.</p>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-        <button id="promoLoginBtn" class="btn">INGRESAR</button>
-        <button id="promoRegBtn" class="btn btn-outline">UNIRME</button>
-      </div>
     </div>
   </div>
 

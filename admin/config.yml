@@ -1,5 +1,6 @@
 backend:
   name: git-gateway
+  backend_url: https://oxiumlabs.netlify.app/.netlify/identity
   branch: main  # Cambia a 'master' si tu rama principal se llama así
 
 display_url: https://oxiumlabs.github.io/OXIUM/

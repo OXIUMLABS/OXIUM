@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: OXIUMLABS /OXIUM # Nombre exacto de tu usuario/repositorio en GitHub
+  repo: OXIUMLABS/OXIUM # Nombre exacto de tu usuario/repositorio en GitHub
   branch: main # o master (según la rama principal de tu repositorio)
   base_url: https://decap-oauth-master.vercel.app
   auth_endpoint: /auth

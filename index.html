@@ -5,64 +5,71 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OXIUM — Official Store</title>
   
-  <!-- Estilos principales -->
+  <!-- Hojas de estilo de tu diseño -->
   <link rel="stylesheet" href="styles.css" />
   
-  <!-- Script de autenticación de Netlify Identity para el panel Admin -->
+  <!-- Script de Netlify Identity para autenticación -->
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
 
-  <!-- NAVEGACIÓN Y ENCABEZADO -->
-  <header class="navbar">
-    <div class="logo">
-      <a href="index.html"><h1>OXIUM</h1></a>
-    </div>
-    
-    <!-- BARRA DE BÚSQUEDA -->
-    <div class="search-box">
-      <input type="text" id="search-input" placeholder="Buscar prenda o ID..." />
-    </div>
+  <!-- BARRA DE NAVEGACIÓN SUPERIOR ORIGINAL -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="index.html">OXIUM</a>
+      </div>
+      
+      <ul class="nav-links">
+        <li><a href="#hero">INICIO</a></li>
+        <li><a href="#catalog">CATÁLOGO</a></li>
+        <li><a href="admin/index.html">PANEL</a></li>
+      </ul>
 
-    <!-- ACCESOS / CARRITO -->
-    <div class="header-actions">
-      <button id="cart-toggle" class="btn-cart">
-        CARRITO (<span id="cart-count">0</span>)
-      </button>
-    </div>
+      <div class="nav-actions">
+        <input type="text" id="search-input" placeholder="Buscar..." class="search-bar" />
+        <button id="cart-toggle" class="cart-btn">
+          CARRITO (<span id="cart-count">0</span>)
+        </button>
+      </div>
+    </nav>
   </header>
 
-  <!-- SECCIÓN HERO / SECTOR PRINCIPAL -->
-  <section class="hero-section">
+  <!-- SECCIÓN HERO ORIGINAL -->
+  <section id="hero" class="hero">
     <div class="hero-content">
-      <h2>CATÁLOGO EXCLUSIVO</h2>
-      <p>Explora nuestras piezas y diseños de temporada.</p>
+      <h2>OXIUM LABS</h2>
+      <p>COLECCIÓN Y PIEZAS EXCLUSIVAS</p>
     </div>
   </section>
 
-  <!-- FILTROS POR CATEGORÍA -->
-  <nav class="categories-bar">
-    <button class="category-btn active" data-filter="all">TODOS</button>
-    <button class="category-btn" data-filter="top">TOP</button>
-    <button class="category-btn" data-filter="bottoms">BOTTOMS</button>
-    <button class="category-btn" data-filter="accessories">ACCESSORIES</button>
-    <button class="category-btn" data-filter="jewelry">JEWELRY</button>
-    <button class="category-btn" data-filter="backpacks">BACKPACKS</button>
-  </nav>
-
-  <!-- CATÁLOGO DINÁMICO DE PRODUCTOS (DECAP CMS) -->
-  <main class="catalog-section">
-    <div id="catalog-container" class="products-grid">
-      <!-- Los productos de Decap CMS se renderizan aquí automáticamente -->
+  <!-- BARRA DE CATEGORÍAS ORIGINAL -->
+  <section class="categories-container">
+    <div class="category-buttons">
+      <button class="cat-btn active" data-filter="all">TODOS</button>
+      <button class="cat-btn" data-filter="top">TOP</button>
+      <button class="cat-btn" data-filter="bottoms">BOTTOMS</button>
+      <button class="cat-btn" data-filter="accessories">ACCESSORIES</button>
+      <button class="cat-btn" data-filter="jewelry">JEWELRY</button>
+      <button class="cat-btn" data-filter="backpacks">BACKPACKS</button>
     </div>
-  </main>
+  </section>
 
-  <!-- FOOTER / PIE DE PÁGINA -->
-  <footer class="footer">
-    <p>&copy; 2026 OXIUM LABS. Todos los derechos reservados.</p>
+  <!-- SECCIÓN DE CATÁLOGO ORIGINAL -->
+  <section id="catalog" class="catalog">
+    <div id="catalog-container" class="products-grid">
+      <!-- Los productos creados desde Decap CMS se cargan aquí conservando tu diseño -->
+    </div>
+  </section>
+
+  <!-- PIE DE PÁGINA ORIGINAL -->
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2026 OXIUM LABS. ALL RIGHTS RESERVED.</p>
+    </div>
   </footer>
 
-  <!-- SCRIPT DE LÓGICA DE TIENDA Y LECTURA DE DECAP CMS -->
+  <!-- SCRIPT CONECTADO -->
   <script src="script.js"></script>
 </body>
 </html>

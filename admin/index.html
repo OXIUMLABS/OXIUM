@@ -3,9 +3,23 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OXIUM — Panel de Control Master</title>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <title>OXIUM — Panel Master</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000000;
+    }
+  </style>
 </head>
 <body>
+  <!-- Carga del script oficial de Decap CMS -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  
+  <script>
+    // Inicialización explícita del panel de administración
+    if (window.CMS) {
+      CMS.init();
+    }
+  </script>
 </body>
 </html>
